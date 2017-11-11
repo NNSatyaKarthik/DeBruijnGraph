@@ -1,4 +1,5 @@
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -28,4 +29,9 @@ public class RabinKarpHashingTest {
         assertEquals(27, obj.hash("TGC", 4));
     }
 
+    @Test
+    public void computeNextHash() throws Exception {
+        assertEquals();
+
+    }
 }
