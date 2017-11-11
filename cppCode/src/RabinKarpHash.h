@@ -6,10 +6,16 @@
 #define CPPCODE_RABINKARPHASH_H
 
 #include "iostream"
+#include "math.h"
 using namespace std;
 
 class RabinKarpHash {
+    int powk1;
+    int k;
 public:
+
+    RabinKarpHash(int k) : k(k), powk1((int)pow(4, k-1)) {}
+
     int genToI(char c){
         switch(c){
             case 'A': return 0;
@@ -26,9 +32,20 @@ public:
         int intval;
         for(char c: s){
             intval = genToI(c);
-            res = res*4 + intval;
+            if(intval == -1) return -1;
+            res = res*k + intval;
         }
         return res;
+    }
+
+    long long computeNextHash(long long initialHash, char c, int k){
+        if(genToI(c) == -1) return -1;
+        return initialHash%powk1 + genToI(c);
+    }
+
+    long long computePrevValue(long long initialHash, char c, int k){
+        if(genToI(c)==-1) return -1;
+        return genToI(c)*powk1 + initialHash/k;
     }
 };
 
