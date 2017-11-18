@@ -26,4 +26,23 @@ public class RabinKarpHashing {
     public static Integer computePrevHash(int vertexId, int i, int k, int sigma) {
         return i*((int)Math.pow(sigma, k-1)) + vertexId/sigma;
     }
+
+    public static int pivotIndex(int[] nums) {
+        int[] forward  = new int[nums.length];
+        for(int i = 0 ; i  < nums.length; i++){
+            forward[i] = ((i > 0)?(forward[i-1]+nums[i-1]):0);
+        }
+        for(int i = 0 ; i < nums.length; i++){
+            System.out.println(forward[i]);
+        }
+        int back = 0;
+        int res = -1;
+        for(int i = nums.length-1; i>=0; i--){
+            if(back == forward[i]){
+                res = i;
+            }
+            back = back+nums[i];
+        }
+        return res;
+    }
 }

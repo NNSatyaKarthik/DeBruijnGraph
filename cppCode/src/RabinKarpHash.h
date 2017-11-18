@@ -5,6 +5,7 @@
 #ifndef CPPCODE_RABINKARPHASH_H
 #define CPPCODE_RABINKARPHASH_H
 
+#include <vector>
 #include "iostream"
 #include "math.h"
 using namespace std;
@@ -26,6 +27,26 @@ public:
         }
     }
 
+    void getMin(vector<vector<int>> tarr, int* mini, int* minj, int curri, int tidx){
+        int minLength = (*minj - *mini + 1);
+        for(int i = 0 ; i < tarr[tidx].size(); i++){
+            if(tidx== tarr.size()-1){
+                if((tarr[tidx][i]-curri+1)  < (minLength)){
+                    *mini = curri;
+                    *minj = tarr[tidx][i];
+                }
+            }else if(tidx == 0){
+                if((tarr[tidx][i]-curri+1)  < (minLength)){
+                    getMin(tarr, mini, minj, tarr[tidx][i], tidx+1);
+                }
+            }else{
+                if((tarr[tidx][i]-curri+1)  < (minLength)){
+                    getMin(tarr, mini, minj, curri, tidx+1);
+                }
+            }
+        }
+    }
+
     long long rabinkarpHash(string s){
         //ATGC - 0123 all elase -1
         long long res = 0 ;
@@ -33,20 +54,31 @@ public:
         for(char c: s){
             intval = genToI(c);
             if(intval == -1) return -1;
-            res = res*k + intval;
+            res = res*4 + intval;
         }
         return res;
     }
 
-    long long computeNextHash(long long initialHash, char c, int k){
+    long long computeNextHash(long long initialHash, char c){
         if(genToI(c) == -1) return -1;
-        return initialHash%powk1 + genToI(c);
+        return initialHash%powk1 * 4 + genToI(c);
     }
 
-    long long computePrevValue(long long initialHash, char c, int k){
-        if(genToI(c)==-1) return -1;
-        return genToI(c)*powk1 + initialHash/k;
+    long long computeNextHash(long long initialHash, int id){
+        if(id == -1) return -1;
+        return initialHash%powk1 * 4 + id;
     }
+
+    long long computePrevValue(long long initialHash, char c){
+        if(genToI(c)==-1) return -1;
+        return genToI(c)*powk1 + initialHash/4;
+    }
+
+    long long computePrevValue(long long initialHash, int id){
+        if(id==-1) return -1;
+        return id*powk1 + initialHash/4;
+    }
+
 };
 
 

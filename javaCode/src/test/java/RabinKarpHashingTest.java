@@ -31,7 +31,8 @@ public class RabinKarpHashingTest {
 
     @Test
     public void computeNextHash() throws Exception {
-        assertEquals();
+        int[] arr = {1,2,3};
+        System.out.println(RabinKarpHashing.pivotIndex(arr));
 
     }
 }
