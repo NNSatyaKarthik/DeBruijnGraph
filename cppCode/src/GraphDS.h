@@ -27,11 +27,6 @@ typedef vector<ii> vii;
 typedef vector<int> vi;
 typedef vector<u_int64_t> vu64;
 
-#define INF 1000000000
-#define abs_val(a) (((a)>0)?(a):-(a))
-#define min(a, b) (a < b)?a:b;
-#define max(a, b) (a > b)?a:b;
-#define FOR(x, b, e) for(int x = (b); x < ((int)e); ++x)
 
 struct Component{
     u_int64_t heightIdx, vertexIdx, ComponentIdx;
@@ -44,19 +39,27 @@ class GraphDS {
     u_int64_t N;
     int sigma, K;
     vector<vector<bool>> IN, OUT;
-    vector<int> parentPtrs;
+    vector<u_int64_t> parentPtrs;
     vector<Component> components;
     BBHashExt *bbHash;
     RabinKarpHash *rkHash;
+    u_int64_t desired_sz, min_ht, max_ht, mid_ht;
+    bool isNoParent(u_int64_t idx){
+        return parentPtrs[idx] == (N+1);
+    }
 public:
     GraphDS(u_int64_t n, int sigma, int K, BBHashExt *bbHashExt, RabinKarpHash *rkHashExt): N(n), sigma(sigma), K(K) {
         bbHash = bbHashExt;
         rkHash = rkHashExt;
         // IN OUT assigned both to false
-        IN.assign(n, vector<bool>(sigma, false));
-        OUT.assign(n, vector<bool>(sigma, false));
+        IN.assign(n, vector<bool>((size_t)sigma, false));
+        OUT.assign(n, vector<bool>((size_t)sigma, false));
         // parent pointers point to -1 is root node.
-        parentPtrs.assign(n, -1);
+        parentPtrs.assign(n, n+1);
+        desired_sz = (u_int64_t)ceil(K*log2(sigma));
+        min_ht = desired_sz;
+        max_ht = 3*desired_sz;
+        mid_ht = 2*desired_sz;
     }
 
     vu64 getNeighbours(u_int64_t vertexId){
@@ -74,7 +77,7 @@ public:
 
     u_int64_t getRoot(u_int64_t idx){
         u_int64_t curr = idx;
-        while(idx < N && parentPtrs[idx] != -1){
+        while(idx < N && !isNoParent(idx)){
             curr = (u_int64_t) parentPtrs[idx];
         }
         return curr;
@@ -83,7 +86,7 @@ public:
     int getDepth(u_int64_t idx){
         u_int64_t curr = idx;
         int res= 0;
-        while(idx < N && parentPtrs[idx] != -1){
+        while(idx < N && !isNoParent(idx)){
             curr = (u_int64_t) parentPtrs[idx];
             res++;
         }
@@ -93,12 +96,12 @@ public:
 
 
     int getHeight(u_int64_t componentIdx){
-        if(componentIdx < 0 || componentIdx >= components.size()) return -1;
+        if(componentIdx >= components.size()) return -1;
         return components[componentIdx].height;
     }
 
     int getSize(u_int64_t componentIdx){
-        if(componentIdx < 0 || componentIdx >= components.size()) return -1;
+        if(componentIdx >= components.size()) return -1;
         return components[componentIdx].size;
     }
 
@@ -141,21 +144,21 @@ public:
         int *height, *size;
 
         u_int64_t *heightIdx;
-        int maxHeight = getMaxHeight();
+        u_int64_t maxHeight = max_ht;
         vector<STATE > states(N, UNVISITED);
         for( u_int64_t i = 0 ; i < N ; i++){
             if(states[i]==UNVISITED){
                 *height = 0;
                 *size = 0 ;
                 *heightIdx = N+1;
-                dfs(i, -1, maxHeight, height, size, heightIdx, states);
+                dfs(i, N+1, maxHeight, height, size, heightIdx, states);
                 temp = new Component(*heightIdx, i, (int)components.size(), *height, *size);
                 components.push_back(*temp);
             }
         }
     }
 
-    void dfs(u_int64_t root, int parentPtr, int maxHeight, int *height, int *size, u_int64_t *heightIdx, vector<STATE> &states){
+    void dfs(u_int64_t root, u_int64_t parentPtr, u_int64_t maxHeight, int *height, int *size, u_int64_t *heightIdx, vector<STATE> &states){
         if(maxHeight <=  0){
             *height = 0 ;
             *size = 0;
@@ -182,30 +185,35 @@ public:
         states[root] = VISITED;
     }
 
-    int getMaxHeight(){
-        return (int)ceil(3*K*log(sigma));
-    }
 
     void updateParentPointers(u_int64_t idx){
         u_int64_t parent;
-        if(parentPtrs[idx]==-1) return;
+        if(isNoParent(idx)) return; // Current idx is the root and no change is needed.
         stack<u_int64_t> stack1;
-        while(parentPtrs[idx] != -1){
+        while(!isNoParent(idx)){ // if there is a parent of the current idx. swap the direction
             stack1.push(idx);
-            if(parentPtrs[idx] == -1) break;
+            if(isNoParent(idx)) break; // this conditino is always false as we are not changing the idx from while loop
             idx = (u_int64_t)parentPtrs[idx];
         }
-        u_int64_t curr;
-        if(stack1.size() > 0) {
-            curr = stack1.top();
-            stack1.pop();
-        }
+        u_int64_t curr = idx;
         while(stack1.size() > 0){
             parentPtrs[curr] = stack1.top();
             curr = stack1.top();
             stack1.pop();
         }
-        parentPtrs[curr] = -1;
+        parentPtrs[curr] = N+1;
+    }
+
+//  hash(U) -> i hash(V)->j
+//  b = firstChar(U), a = lastChar(V)
+    void addDynamicEdge(u_int64_t i, u_int64_t j, int a, int b){ //u and v are the vertex id's
+        OUT[i][a] = 1;
+        IN[j][b]= 1;
+        u_int64_t Ci = getRoot(i);
+        u_int64_t Cj = getRoot(j);
+        if(Ci != Cj) {
+
+        }
     }
 };
 
