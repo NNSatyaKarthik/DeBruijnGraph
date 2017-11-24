@@ -80,6 +80,18 @@ public:
         return curr;
     }
 
+    int getDepth(u_int64_t idx){
+        u_int64_t curr = idx;
+        int res= 0;
+        while(idx < N && parentPtrs[idx] != -1){
+            curr = (u_int64_t) parentPtrs[idx];
+            res++;
+        }
+        return res;
+    }
+
+
+
     int getHeight(u_int64_t componentIdx){
         if(componentIdx < 0 || componentIdx >= components.size()) return -1;
         return components[componentIdx].height;
@@ -172,6 +184,28 @@ public:
 
     int getMaxHeight(){
         return (int)ceil(3*K*log(sigma));
+    }
+
+    void updateParentPointers(u_int64_t idx){
+        u_int64_t parent;
+        if(parentPtrs[idx]==-1) return;
+        stack<u_int64_t> stack1;
+        while(parentPtrs[idx] != -1){
+            stack1.push(idx);
+            if(parentPtrs[idx] == -1) break;
+            idx = (u_int64_t)parentPtrs[idx];
+        }
+        u_int64_t curr;
+        if(stack1.size() > 0) {
+            curr = stack1.top();
+            stack1.pop();
+        }
+        while(stack1.size() > 0){
+            parentPtrs[curr] = stack1.top();
+            curr = stack1.top();
+            stack1.pop();
+        }
+        parentPtrs[curr] = -1;
     }
 };
 
