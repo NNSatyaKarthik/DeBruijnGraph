@@ -26,8 +26,18 @@ namespace {
 
 TEST_F(RabinKarpHashTest, hashValueOfATGC) {
     ASSERT_EQ(sut->rabinkarpHash("ATGC"), 27);
-    ASSERT_EQ(sut->rabinkarpHash("TGC"), 27);
+//    ASSERT_EQ(sut->rabinkarpHash("TGC"), 27);
     ASSERT_EQ(sut->rabinkarpHash("LFAJFLAJFF"), -1);
+}
+
+TEST_F(RabinKarpHashTest, FirstCharID){
+    ASSERT_EQ(sut->getFirstChar(sut->rabinkarpHash("TGCA")), 'T');
+    ASSERT_EQ(sut->getFirstChar(sut->rabinkarpHash("ATGC")), 'A');
+}
+
+TEST_F(RabinKarpHashTest, LastCharID){
+    ASSERT_EQ(sut->getLastChar(sut->rabinkarpHash("TGCA")), 'A');
+    ASSERT_EQ(sut->getLastChar(sut->rabinkarpHash("ATGC")), 'C');
 }
 
 TEST_F(RabinKarpHashTest, charToIMapping){

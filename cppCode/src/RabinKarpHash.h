@@ -27,6 +27,16 @@ public:
         }
     }
 
+    char genCToI(int i){
+        switch(i){
+            case 0: return 'A';
+            case 1: return 'T';
+            case 2: return 'G';
+            case 3: return 'C';
+        }
+        return 'X';
+    }
+
     void getMin(vector<vector<int>> tarr, int* mini, int* minj, int curri, int tidx){
         int minLength = (*minj - *mini + 1);
         for(int i = 0 ; i < tarr[tidx].size(); i++){
@@ -79,6 +89,13 @@ public:
         return id*powk1 + initialHash/4;
     }
 
+    char getFirstChar(long long initialHash){
+        return genCToI((int)(initialHash/powk1));
+    }
+
+    char getLastChar(long long initalHash){
+        return genCToI((int)(initalHash%4));
+    }
 };
 
 
