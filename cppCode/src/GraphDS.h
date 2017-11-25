@@ -28,11 +28,12 @@ typedef vector<int> vi;
 typedef vector<u_int64_t> vu64;
 
 
+
 struct Component{
-    u_int64_t heightIdx, vertexIdx, ComponentIdx;
+    u_int64_t heightIdx, rootIdx;
     int height, size;
 
-    Component(u_int64_t heightIdx, u_int64_t vertexIdx, u_int64_t ComponentIdx, int height, int size): heightIdx(heightIdx), vertexIdx(vertexIdx), ComponentIdx(ComponentIdx), height(height), size(size) {}
+    Component(u_int64_t heightIdx, u_int64_t rootIdx, int height, int size): heightIdx(heightIdx), rootIdx(rootIdx), height(height), size(size) {}
 };
 
 class GraphDS {
@@ -40,7 +41,7 @@ class GraphDS {
     int sigma, K;
     vector<vector<bool>> IN, OUT;
     vector<u_int64_t> parentPtrs;
-    vector<Component> components;
+    map<u_int64_t, Component> componentMap;
     BBHashExt *bbHash;
     RabinKarpHash *rkHash;
     u_int64_t desired_sz, min_ht, max_ht, mid_ht;
@@ -95,14 +96,16 @@ public:
 
 
 
-    int getHeight(u_int64_t componentIdx){
-        if(componentIdx >= components.size()) return -1;
-        return components[componentIdx].height;
+    int getHeight(u_int64_t rootIdx){
+        auto it = componentMap.find(rootIdx);
+        if(it == componentMap.end()) return -1;
+        return (it->second).height;
     }
 
-    int getSize(u_int64_t componentIdx){
-        if(componentIdx >= components.size()) return -1;
-        return components[componentIdx].size;
+    int getSize(u_int64_t rootIdx){
+        auto it = componentMap.find(rootIdx);
+        if(it == componentMap.end()) return -1;
+        return (it->second).size;
     }
 
     vu64 getLeaves(u_int64_t rootVertexIdx){
@@ -137,7 +140,7 @@ public:
 
     enum STATE {VISITED, VISITING, UNVISITED};
 
-//    Updates parent Pointers & Populates components vector with the
+//    Updates parent Pointers & Populates componentMap with the
 //    root of each Componenet.
     void buildForest(){
         Component *temp;
@@ -152,8 +155,8 @@ public:
                 *size = 0 ;
                 *heightIdx = N+1;
                 dfs(i, N+1, maxHeight, height, size, heightIdx, states);
-                temp = new Component(*heightIdx, i, (int)components.size(), *height, *size);
-                components.push_back(*temp);
+                temp = new Component(*heightIdx, i, *height, *size);
+                componentMap.insert(make_pair(i, *temp));
             }
         }
     }
@@ -185,6 +188,25 @@ public:
         states[root] = VISITED;
     }
 
+    int getWholeSize(u_int64_t root){
+        int res=0;
+        if(root >= N) return res;
+        queue<u_int64_t> q;
+        u_int64_t vidx;
+        q.push(root);
+        vu64 neighbours;
+        while(q.size() > 0 ){
+            vidx = q.front();
+            res++;
+            neighbours = getNeighbours(vidx);
+            neighbours = filter(neighbours, vidx);
+            if(neighbours.size() > 0){
+                for(u_int64_t neigbour: neighbours) q.push(neigbour);
+            }
+        }
+        return res;
+    }
+
 
     void updateParentPointers(u_int64_t idx){
         u_int64_t parent;
@@ -209,11 +231,75 @@ public:
     void addDynamicEdge(u_int64_t i, u_int64_t j, int a, int b){ //u and v are the vertex id's
         OUT[i][a] = 1;
         IN[j][b]= 1;
-        u_int64_t Ci = getRoot(i);
-        u_int64_t Cj = getRoot(j);
+        u_int64_t Ci, Cj, big_c, small_c, big_i, small_j;
+        int ht_Ci, ht_Cj, sz_Ci, sz_Cj, depth;
+        Ci = getRoot(i);
+        Cj = getRoot(j);
         if(Ci != Cj) {
-
+            //TODO keep the component outside
+//            ht_Ci = getHeight(Ci);
+//            ht_Cj = getHeight(Cj);
+            sz_Ci = getSize(Ci);
+            sz_Cj = getSize(Cj);
+            if((sz_Ci > desired_sz) ^ (sz_Cj > desired_sz)){
+                // if only one of the components is greater.
+                big_c = (sz_Ci > sz_Cj)?Ci:Cj;
+                small_c = (sz_Ci > sz_Cj)?Cj:Ci;
+                big_i = (big_c==Ci)?i:j;
+                small_j = (small_c==Ci)?i:j;
+                depth = getDepth(big_i);
+                if(depth < mid_ht) {
+                    merge(small_j, big_i, small_c, big_c, false);
+                }else{
+                    merge(small_j, big_i, small_c, big_c, true);
+                }
+            }else{
+                if(sz_Ci < desired_sz && sz_Cj < desired_sz) {
+                    merge(i, j, Ci, Cj, false);
+                }else{
+                    //TODO ask Dr.Christina about this case.
+                }
+            }
         }
+    }
+
+    void merge(u_int64_t small_j, u_int64_t big_i, u_int64_t small_root, u_int64_t big_root, bool isBreak){
+        updateParentPointers(small_j);
+        //update the componentMap..
+        auto smaller_component_it = componentMap.find(small_root);
+        auto bigger_component_it = componentMap.find(big_root);
+        if(smaller_component_it == componentMap.end() || bigger_component_it == componentMap.end()){
+            printf("Something is seriously wrong with the component Map updation. \n"
+                           "Root of the smaller component or Root of bigger Component is not found in the componentMap.\n");
+            exit(0);
+        }
+        Component small_component = smaller_component_it->second;
+        Component bigger_component = bigger_component_it->second;
+        if(!isBreak){
+            parentPtrs[small_j] = big_i;
+            //Update bigger componets size by adding the smaller components size
+            componentMap.insert(make_pair(big_root, *(new Component(bigger_component.heightIdx, bigger_component.rootIdx, bigger_component.height, bigger_component.size+small_component.size))));
+        }else{
+            //First I need to break the bigger into 2 halves.
+            // store the root of the chunk.... in chunk_root
+            u_int64_t d = 0, idx = big_i, chunk_root = N+1;
+            while(d++ < min_ht){
+                chunk_root = idx;
+                idx = parentPtrs[idx];
+            }
+            parentPtrs[chunk_root] = N+1; //breaking the component into chunk.
+            // calculate the size of the chunk broken from the bigger part..... getWholeSize
+            int chunk_size = getWholeSize(chunk_root);
+            // update the bigger_component chunk size
+            bigger_component.size = bigger_component.size-chunk_size;
+            // add teh parent pointer of small_j is pointed to big_i;
+            parentPtrs[small_j] = big_i;
+            // update the chunk size by adding the smaller_component size
+            chunk_size += small_component.size;
+            // add the chunk root and chunk component into the componentMap.
+            componentMap.insert(make_pair(chunk_root, *(new Component(small_component.heightIdx, chunk_root, small_component.height, chunk_size))));
+        }
+        componentMap.erase(smaller_component_it);
     }
 };
 
