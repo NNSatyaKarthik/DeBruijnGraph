@@ -226,6 +226,11 @@ public:
         parentPtrs[curr] = N+1;
     }
 
+    void addStaticEdge(u_int64_t i, u_int64_t j, int a, int b){
+        OUT[i][a] = 1;
+        IN[j][b] = 1;
+    }
+
 //  hash(U) -> i hash(V)->j
 //  b = firstChar(U), a = lastChar(V)
     void addDynamicEdge(u_int64_t i, u_int64_t j, int a, int b){ //u and v are the vertex id's
@@ -300,6 +305,22 @@ public:
             componentMap.insert(make_pair(chunk_root, *(new Component(small_component.heightIdx, chunk_root, small_component.height, chunk_size))));
         }
         componentMap.erase(smaller_component_it);
+    }
+
+    void printInOut(){
+        printf("\nIN Matrix: \t\t OUT Matrix\n");
+        for(int i = 0 ; i < IN.size(); i++){
+            printf("%2d :: ", i);
+            for(int j = 0 ; j < sigma; j++) printf(IN[i][j]? "1, ":"0, ");
+            printf("\t");
+            for(int j = 0 ; j < sigma; j++) printf(OUT[i][j]? "1, ":"0, ");
+            printf("\n");
+        }
+//        printf("\nOut Matrix: \n");
+//        for(int i = 0 ; i < IN.size(); i++){
+//            for(int j = 0 ; j < sigma; j++) printf(OUT[i][j]? "1, ":"0, ");
+//            printf("\n");
+//        }
     }
 };
 

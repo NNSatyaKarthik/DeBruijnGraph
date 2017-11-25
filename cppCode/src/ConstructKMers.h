@@ -55,6 +55,14 @@ public:
         return res;
     }
 
+    vector<string> getKmersFromData(string data){
+        vector<string> res;
+        for(int i = 0 ; i < data.length()-k+1; i++){
+            res.push_back(data.substr(i, k));
+        }
+        return res;
+    }
+
     vector<string> getUniqueKMers(vector<string> res){
         sort(res.begin(), res.end());
         int curr = 0;

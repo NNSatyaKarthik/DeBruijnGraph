@@ -96,6 +96,14 @@ public:
     char getLastChar(long long initalHash){
         return genCToI((int)(initalHash%4));
     }
+
+    int getFirstCharI(long long initialHash){
+        return genToI(getFirstChar(initialHash));
+    }
+
+    int getLastCharI(long long initalHash){
+        return genToI(getLastChar(initalHash));
+    }
 };
 
 

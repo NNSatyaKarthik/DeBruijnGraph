@@ -34,7 +34,7 @@ namespace {
     };
 }
 
-TEST_F(ConstructKMersTest, Kmers) {
+TEST_F(ConstructKMersTest, DISABLED_Kmers) {
     vector<string> kmers = sut->getKMers(GENOMEFA);
     vector<long long> kmersHashValues = sut->getRKHashMaps(kmers);
     map<string, long long> map;
