@@ -25,12 +25,6 @@ typedef pair<int, int> ii;
 typedef vector<ii> vii;
 typedef vector<int> vi;
 
-#define INF 1000000000
-#define abs_val(a) (((a)>0)?(a):-(a))
-#define min(a, b) (a < b)?a:b;
-#define max(a, b) (a > b)?a:b;
-#define FOR(x, b, e) for(int x = (b); x < ((int)e); ++x)
-
 class ConstructKMers {
     int k;
 public:
