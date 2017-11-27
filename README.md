@@ -1,5 +1,13 @@
 ## Addition of Dynamic Edges to Debruijn graph
 
+
+You can use the editor on GitHub to maintain and preview the content for your website in Markdown files.
+
+Whenever you commit to this repository, GitHub Pages will run Jekyll to rebuild the pages in your site, from the content in your Markdown files.
+
+Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+
+
 De Bruijn Graphs are succinct data structures, in Bio Informatics, are used for assembly of genome sequences 
 obtained from a Next Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using 
 data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement 
@@ -77,8 +85,8 @@ The entire algorithm is designed to work in the given steps:
 
 - Our algorithms have been written in C++. We have used **CLion editor** to write and run the code. 
 - It is really important to have a FASTQ file for above stated sequence which you get from 
-    https://www.ebi.ac.uk/ena/data/view/ERX008638 [European Nucleotide Archive]
-
+  [European Nucleotide Archive](https://www.ebi.ac.uk/ena/data/view/ERX008638)
+- Once the GB data is taken, 
 
 - Bulleted
 - List
