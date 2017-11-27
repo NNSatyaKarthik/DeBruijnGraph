@@ -9,11 +9,15 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
-### **Addition of Dynamic Edges to Debruijn graph**
+## Addition of Dynamic Edges to Debruijn graph
 
-# Header 1
-## Header 2
-### Header 3
+**Introduction:**
+<font face="verdana">
+De Bruijn Graphs aresuccinct data structures in Bio Informatics that are used for assembly of genome sequences obtained from a Next
+Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement De Bruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper “Fully Dynamic De Bruijn Graphs”. The aim of our project is to implement Dynamic addition of edges into De Bruijn graph which is constructed using a similar compact data structures.
+ </font>
+
+
 
 - Bulleted
 - List
