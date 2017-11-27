@@ -86,7 +86,32 @@ The entire algorithm is designed to work in the given steps:
 - Our algorithms have been written in C++. We have used **CLion editor** to write and run the code. 
 - It is really important to have a FASTQ file for above stated sequence which you get from 
   [European Nucleotide Archive](https://www.ebi.ac.uk/ena/data/view/ERX008638)
-- Once the GB data is taken, 
+- Once the GB data is taken, check for your code in the Clion editor. Then click on 'Run' button to start your algorithm
+  of generating dynamic edge on Debruijn graphs.
+- If you get any errors or invalid references in the console, these might be due to some external libraries missing from
+  your code. Make sure to mention the libraries in the TARGET_LINK_LIBRARIES of CMakeLists.txt which is a build configuration 
+  file that comes along with any project you create in CLion.
+  
+  The entire project can be downloaded from this [link](https://github.com/NNSatyaKarthik/DeBruijnGraph).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Bulleted
 - List
