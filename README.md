@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Addition of Dynamic Edges to Debruijn graph
 
 You can use the [editor on GitHub](https://github.com/NNSatyaKarthik/DeBruijnGraph/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
