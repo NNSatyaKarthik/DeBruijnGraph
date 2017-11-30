@@ -13,7 +13,16 @@ using testing::Eq;
 
 namespace {
     class GraphDSTest : public testing::Test {
+    protected:
+        time_t b, e;
+        virtual void SetUp() {
+            time(&b);
+        }
 
+        virtual void TearDown() {
+            time(&e);
+            printf ("time taken for this Test Case is: %.2lf seconds.\n", difftime(e,b));
+        }
     public:
         string data;
         int k;
@@ -35,7 +44,10 @@ namespace {
         }
 
         virtual ~GraphDSTest() {
-            delete gds, sut, rkhash, bbHashExt;
+            delete gds;
+            delete sut;
+            delete rkhash;
+            delete bbHashExt;
         }
     };
 }
@@ -51,8 +63,8 @@ TEST_F(GraphDSTest, getNeighbours) {
     gds->printInOut();
 
     //Test neighbours of 19th vertex id
-    vector<u_int64_t> neighboursExpected = {6, 14, 9, 3};
-    vector<u_int64_t> neighboursAct = gds->getNeighbours(19);
+    vector<u_int64_t> neighboursExpected = {10, 15, 7, 3};
+    vector<u_int64_t> neighboursAct = gds->getNeighbours(5);
     //prints both the lists
     printf("Expected: ");
     for(u_int64_t nact: neighboursExpected)printf("%llu, ", nact);
@@ -70,7 +82,7 @@ TEST_F(GraphDSTest, getNeighbours) {
     // checks all neighbours expected whether present in neighbours found list
     for(u_int64_t nexpt: neighboursExpected){
         if(find(neighboursAct.begin(), neighboursAct.end(), nexpt) == neighboursAct.end()){
-            printf("%llu is not found in expected list\n", nexpt);
+            printf("%llu is not found in Actual list\n", nexpt);
             EXPECT_TRUE(false);
         }
     }

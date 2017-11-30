@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-
+#include "ctime"
 #include "../src/ConstructKMers.h"
 #include "../src/RabinKarpHash.h"
 #include "../lib/BBHash-master/BooPHF.h"
@@ -16,7 +16,16 @@ typedef boomphf::mphf<  long long, hasher_t  > boophf_t;
 
 namespace {
     class ConstructKMersTest : public testing::Test {
+    protected:
+        time_t b, e;
+        virtual void SetUp() {
+            time(&b);
+        }
 
+        virtual void TearDown() {
+            time(&e);
+            printf ("time taken for this Test Case is: %.2lf seconds.\n", difftime(e,b));
+        }
     public:
         int k;
         ConstructKMers* sut;
@@ -35,10 +44,20 @@ namespace {
 }
 
 TEST_F(ConstructKMersTest, DISABLED_Kmers) {
+    time_t begin, end;
+    time(&begin);
     vector<string> kmers = sut->getKMers(GENOMEFA);
+    time(&end);
+    printf ("time taken for getKmers() %.2lf seconds.\n", difftime(end,begin));
+    time(&begin);
     vector<long long> kmersHashValues = sut->getRKHashMaps(kmers);
+    time(&end);
+    printf ("time taken for getRKHashMaps() %.2lf seconds.\n", difftime(end,begin));
+
+    time(&begin);
     map<string, long long> map;
     set<long long> hashSet;
+    printf("KMERS Size: %d", (int)kmers.size() );
     for(int i = 0 ; i < kmersHashValues.size(); i++){
         if(map.find(kmers[i]) != map.end()){
             if(map[kmers[i]]!= kmersHashValues[i]){
@@ -56,6 +75,8 @@ TEST_F(ConstructKMersTest, DISABLED_Kmers) {
         }
     }
     printf("No duplicate hash values found");
+    time(&end);
+    printf ("time taken for TestCase() %.2lf seconds.\n", difftime(end,begin));
     ASSERT_EQ(kmersHashValues.size(), kmers.size());
 }
 

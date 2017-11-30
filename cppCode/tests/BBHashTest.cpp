@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-
+#include "ctime"
 #include "../src/ConstructKMers.h"
 #include "../src/BBHash.h"
 
@@ -16,8 +16,17 @@ using testing::Eq;
 
 namespace {
     class BBHashTest : public testing::Test {
+    protected:
+        time_t b, e;
+        virtual void SetUp() {
+            time(&b);
+        }
+
+        virtual void TearDown() {
+            time(&e);
+            printf ("time taken for this Test Case is: %.2lf seconds.\n", difftime(e,b));
+        }
     public:
-        vector<long long> input_keys = {1,2,3,4,5,6,7,10,20,30,40,50};
         int k;
         ConstructKMers* sut;
         RabinKarpHash* rkhash;
@@ -26,7 +35,6 @@ namespace {
             k = 15;
             sut = new ConstructKMers(k);
             rkhash = new RabinKarpHash(k);
-            bbHashExt = new BBHashExt(input_keys);
         }
 
         virtual ~BBHashTest() {
@@ -39,11 +47,29 @@ namespace {
 TEST_F(BBHashTest, getMPHF) {
     // GIven an long long returns the index of the mphf
     //CHeck for unique ness.
+    vector<long long> input_keys = {1,2,3,4,5,6,7,10,20,30,40,50};
+    bbHashExt = new BBHashExt(input_keys);
     set<uint64_t> hashSet;
     u_int64_t idx;
+//    printf("Size of the keys: %d",(int)bbHashExt->n);
     for(long long rkhash: input_keys){
         idx = bbHashExt->getMPHF(rkhash);
         printf("RKHash: %lli, Value(IDX): %llu\n", rkhash, idx);
     }
 }
+
+
+TEST_F(BBHashTest, getMPHFFullDataSet) {
+    // GIven an long long returns the index of the mphf
+    //CHeck for unique ness.
+    vector<string> kmers = sut->getKMers(GENOMEFA);
+    vector<long long> kmersHashValues = sut->getRKHashMaps(kmers);
+    printf("KMERS size: %lu\n", kmersHashValues.size());
+    bbHashExt = new BBHashExt(kmersHashValues);
+    sort(kmers.begin(), kmers.end());
+    kmers.erase(unique(kmers.begin(), kmers.end()), kmers.end());
+    printf("Size of the Unique Kmers: %lu\n",kmers.size());
+}
+
+
 

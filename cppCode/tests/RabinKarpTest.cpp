@@ -10,7 +10,16 @@ using testing::Eq;
 
 namespace {
     class RabinKarpHashTest : public testing::Test {
+    protected:
+        time_t b, e;
+        virtual void SetUp() {
+            time(&b);
+        }
 
+        virtual void TearDown() {
+            time(&e);
+            printf ("time taken for this Test Case is: %.2lf seconds.\n", difftime(e,b));
+        }
     public:
         RabinKarpHash* sut;
 
