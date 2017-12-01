@@ -61,6 +61,7 @@ public:
         min_ht = desired_sz;
         max_ht = 3*desired_sz;
         mid_ht = 2*desired_sz;
+        printf("\nDesiredSize: %llu, minHeight:%llu, midHeight:%llu, maxHeight:%llu\n", desired_sz, min_ht, mid_ht, max_ht);
     }
 
     vu64 getNeighbours(u_int64_t vertexId){
@@ -86,15 +87,34 @@ public:
 
     int getDepth(u_int64_t idx){
         u_int64_t curr = idx;
-        int res= 0;
-        while(idx < N && !isNoParent(idx)){
-            curr = (u_int64_t) parentPtrs[idx];
+        int res= 1;
+        while(curr < N && !isNoParent(curr)){
+            curr = parentPtrs[curr];
             res++;
         }
         return res;
     }
 
+    int getHeightModified(u_int64_t rootIdx){
+//        printf("\n\n\n\nModified height is called with rootIdx: %llu\n", rootIdx);
+        vu64 neighbours = getNeighbours(rootIdx);
+//        for(u_int64_t v: neighbours){
+//            printf("Parent Pointer of neighbour %llu is : %llu\n", v, parentPtrs[v]);
+//        }
+        vu64 neighbours_filtered = filter(neighbours, rootIdx);
+//        for(u_int64_t v: neighbours_filtered){
+//            printf("Parent Pointer of neighbour Filtered %llu is : %llu\n", v, parentPtrs[v]);
+//        }
+        int maxHt = 0, temp;
+        for(u_int64_t vertex : neighbours_filtered){
+            temp = getHeightModified(vertex);
+            if(temp > maxHt){
+                maxHt = temp;
+            }
+        }
+        return (maxHt + 1);
 
+    }
 
     int getHeight(u_int64_t rootIdx){
         auto it = componentMap.find(rootIdx);
@@ -144,18 +164,18 @@ public:
 //    root of each Componenet.
     void buildForest(){
         Component *temp;
-        int *height, *size;
+        int height, size;
 
-        u_int64_t *heightIdx;
+        u_int64_t heightIdx;
         u_int64_t maxHeight = max_ht;
         vector<STATE > states(N, UNVISITED);
         for( u_int64_t i = 0 ; i < N ; i++){
             if(states[i]==UNVISITED){
-                *height = 0;
-                *size = 0 ;
-                *heightIdx = N+1;
-                dfs(i, N+1, maxHeight, height, size, heightIdx, states);
-                temp = new Component(*heightIdx, i, *height, *size);
+                height = 0;
+                size = 0 ;
+                heightIdx = N+1;
+                dfs(i, N+1, maxHeight, &height, &size, &heightIdx, states);
+                temp = new Component(heightIdx, i, height, size+1);
                 componentMap.insert(make_pair(i, *temp));
             }
         }
@@ -163,26 +183,25 @@ public:
 
     void dfs(u_int64_t root, u_int64_t parentPtr, u_int64_t maxHeight, int *height, int *size, u_int64_t *heightIdx, vector<STATE> &states){
         if(maxHeight <=  0){
-            *height = 0 ;
-            *size = 0;
             return;
         }
-        u_int64_t *tempHeightIdx;
-        int *tempHeight;
+        u_int64_t tempHeightIdx;
+        int tempHeight;
         states[root] = VISITING;
         vu64 neighbours = getNeighbours(root);
         for(u_int64_t neighbour : neighbours){
             if(states[neighbour] == UNVISITED){
-                *tempHeight = 0;
-                *tempHeightIdx = N+1;
-                dfs(neighbour, root, maxHeight - 1, tempHeight, size, tempHeightIdx, states);
-                if(*tempHeight > *height){
-                    *height = *tempHeight;
+                tempHeight = 0;
+                tempHeightIdx = N+1;
+                dfs(neighbour, root, maxHeight - 1, &tempHeight, size, &tempHeightIdx, states);
+                if((maxHeight-1) > 0) *size += 1;
+                if(tempHeight > *height){
+                    *height = tempHeight;
                     *heightIdx = neighbour;
                 }
             }
         }
-        *size += 1;
+//        *size += 1;
         *height += 1;
         parentPtrs[root] = parentPtr;
         states[root] = VISITED;
@@ -208,6 +227,10 @@ public:
     }
 
 
+//    Update Parent Pointers updates all the pointers to map to idx. but doesn't change the
+//    ComponentMap to new idx. This part is done in merge code.
+//    Reason why we are not doing the updation of componentMap here is anyhow this old component will
+//    be deleted so not performing unnecessary operation here.
     void updateParentPointers(u_int64_t idx){
         u_int64_t parent;
         if(isNoParent(idx)) return; // Current idx is the root and no change is needed.
@@ -321,6 +344,27 @@ public:
 //            for(int j = 0 ; j < sigma; j++) printf(OUT[i][j]? "1, ":"0, ");
 //            printf("\n");
 //        }
+    }
+
+    void printParentPointers(){
+        printf("\nParentPointers: \n");
+        for(int i = 0 ; i < parentPtrs.size(); i++){
+            if(parentPtrs[i] != N+1){
+                printf("%2d --> %llu\n", i, parentPtrs[i]);
+            }else{
+                printf("Root %2d --> %llu\n", i, parentPtrs[i]);
+            }
+        }
+    }
+
+    void printComponents(){
+        printf("\nPrintComponent Objects\n");
+        printf("Number of components found : %lu\n", componentMap.size());
+        int i = 1;
+        for(auto it = componentMap.begin(); it != componentMap.end(); it++){
+            printf("Component: %2d's Root is : %llu\n", i++, it->first);
+            printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %llu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
+        }
     }
 };
 

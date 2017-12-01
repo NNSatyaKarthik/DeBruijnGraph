@@ -40,7 +40,7 @@ namespace {
             kmers = sut->getKmersFromData(data);
             kmersHashValues = sut->getRKHashMaps(kmers);
             bbHashExt = new BBHashExt(kmersHashValues);
-            gds = new GraphDS(kmersHashValues.size(), 4, k, bbHashExt, rkhash);
+            gds = new GraphDS(bbHashExt->getSize(), 4, k, bbHashExt, rkhash);
         }
 
         virtual ~GraphDSTest() {
@@ -86,5 +86,60 @@ TEST_F(GraphDSTest, getNeighbours) {
             EXPECT_TRUE(false);
         }
     }
+}
+
+
+TEST_F(GraphDSTest, buildForestTest){
+    for(int i = 0 ; i < kmers.size(); i++){
+        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+    }
+//    gds->printInOut(); //Prints all 0's and 1'st
+    for(int id = 1; id < kmers.size(); id++){
+        gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
+    }
+    gds->printInOut();
+    gds->printParentPointers();
+    gds->printComponents();
+    gds->buildForest();
+    gds->printParentPointers();
+    gds->printComponents();
+
+}
+
+
+TEST_F(GraphDSTest, getLeavesTest){
+    for(int i = 0 ; i < kmers.size(); i++){
+        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+    }
+//    gds->printInOut(); //Prints all 0's and 1'st
+    for(int id = 1; id < kmers.size(); id++){
+        gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
+    }
+    gds->printInOut();
+    gds->buildForest();
+
+    gds->printParentPointers();
+    gds->printComponents();
+    ASSERT_EQ(gds->getDepth(15), 13);
+}
+
+
+
+TEST_F(GraphDSTest, updateParentPointersTest){
+    for(int i = 0 ; i < kmers.size(); i++){
+        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+    }
+//    gds->printInOut(); //Prints all 0's and 1'st
+    for(int id = 1; id < kmers.size(); id++){
+        gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
+    }
+//    gds->printInOut();
+    gds->buildForest();
+
+    gds->printParentPointers();
+    gds->printComponents();
+    gds->updateParentPointers(15);
+    gds->printParentPointers();
+    gds->printComponents();
 }
 

@@ -41,7 +41,7 @@ public:
 //            if(idx > max) max = (int)idx;
 //        }
 //        max = max+1;
-//        n = (int)max;
+        n = valuesSet.size();
         rkeys = new vector<long long>(valuesSet.size(), 0);
         for(long long value: values){
             idx = bphf->lookup(value);
