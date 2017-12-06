@@ -15,8 +15,7 @@ De Bruijn graphs efficiently which supported dynamic insertion and deletion at t
 “Fully Dynamic De Bruijn Graphs”. The aim of our project is to implement Dynamic addition of edges into De 
 Bruijn graph which is constructed using a similar compact data structures.
 
-```markdown
-# -Introduction:
+# Introduction:
 
 De Bruijn graphs enable us to represent a sequence in terms of k-mers. The graph is basically a directed graph
 with unique nodes representing k-tuples. These k-tuples are decided by starting with the first k nucleotides and
@@ -30,12 +29,12 @@ repetitive regions. This will improve the space efficiency.
 
 There are various approaches to constructing Debruijn graph and **minimal perfect hashing** is one of them.
 
-# -Algorithm:
+# Algorithm:
 The dataset which we are about to use in our algorithm is a fastq file of **E-coli K-12 MG1655 illumina sequencing 
 genome** which contains a sequence genome in GBs.
 The entire algorithm is designed to work in the given steps:
 
-- **Construction of Debruijn Graph:**
+**Construction of Debruijn Graph:**
   -  Each read is passed sequentially into the the DBGraph Construction which constructs a De Bruijn graph dynamically 
      adding new vertices and edges into the graph DB.
   -  For each sequence of size N split the sequence into array of size (n − k) each element with length k. Initialize 
@@ -43,7 +42,7 @@ The entire algorithm is designed to work in the given steps:
   -  For each sequence reads, construct k-mers of the reads. Add consecutive k-mer1 and k-mer2 vertices if not present. 
      Then add an edge between those vertices using AddDynamicEdge algorithm.
      
-- **Adding Dynamice Edges:**
+**Adding Dynamice Edges:**
   -  Given a Debruijn Graph DB and 2 K-mers, we compute the hash of U and V for finding the indices of the IN and OUT
      matrices. 
   -  Initialize all the constants desiredsz, minht, maxht,midht. IN and OUT matrices are set to 1 for adding an edge
@@ -58,7 +57,7 @@ The entire algorithm is designed to work in the given steps:
        bigger component as addition of new component of height < desiredsz doesn’t affect any violation to our conditions.
   -  We repeat this process till all the Edges are added into the G.
 
-- **Merge two connected components:**
+**Merge two connected components:**
   -  Given a graph G and 2 K-mers Ui and Vi (Indices of the K-mers), there is a need to merge U to V . This merge
      function’s 2nd and the 3rd parameters are always the smaller components . Within the Merge method, it changes the 
      direction of all the parent pointers in U’s component to point to the vertex U. This takes the time O(k log2 σ). 
@@ -70,7 +69,7 @@ The entire algorithm is designed to work in the given steps:
      desiredsz-1.We choose one of the boundary as the new root of the U component. We sample the nodes in the broken 
      component and change the directions of parent pointers for finding the new root of the broken component.
 
-- **Performance evaluations:**
+**Performance evaluations:**
   We are using a small portion of code that would be dedicated to time and memory consumption of the entire project. To 
   check for the time utilized in this algortihm, we set a timer from the sequence read till the end of the merging components.
   
@@ -94,35 +93,9 @@ The entire algorithm is designed to work in the given steps:
   
   The entire project can be downloaded from this [link](https://github.com/NNSatyaKarthik/DeBruijnGraph).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
-```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
