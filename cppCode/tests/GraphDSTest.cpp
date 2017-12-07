@@ -2,14 +2,12 @@
 // Created by Naga Satya Karthik on 11/10/17.
 //
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 #include "../src/RabinKarpHash.h"
 #include "../src/ConstructKMers.h"
 #include "../src/BBHash.h"
 #include "../src/GraphDS.h"
 
-using testing::Eq;
 
 namespace {
     class GraphDSTest : public testing::Test {
@@ -107,21 +105,26 @@ TEST_F(GraphDSTest, buildForestTest){
 }
 
 
-TEST_F(GraphDSTest, getLeavesTest){
+TEST_F(GraphDSTest, BreakEvenAddDynamicEdgeTest){
     for(int i = 0 ; i < kmers.size(); i++){
         printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
     }
 //    gds->printInOut(); //Prints all 0's and 1'st
-    for(int id = 1; id < kmers.size(); id++){
+    for(int id = 1; id < kmers.size()/2; id++){
         gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
     }
-    gds->printInOut();
+//    gds->printInOut();
     gds->buildForest();
 
     gds->printParentPointers();
     gds->printComponents();
-    ASSERT_EQ(gds->getDepth(15), 13);
+    for(int id = kmers.size()/2; id < kmers.size(); id++){
+        gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
+    }
+    gds->printParentPointers();
+    gds->printComponents();
 }
+
 
 
 

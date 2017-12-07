@@ -4,7 +4,6 @@
 
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "ctime"
 #include "../src/ConstructKMers.h"
 #include "../src/RabinKarpHash.h"

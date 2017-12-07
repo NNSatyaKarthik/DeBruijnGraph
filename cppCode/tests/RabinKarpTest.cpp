@@ -2,11 +2,9 @@
 // Created by Naga Satya Karthik on 11/10/17.
 //
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 #include "../src/RabinKarpHash.h"
 
-using testing::Eq;
 
 namespace {
     class RabinKarpHashTest : public testing::Test {

@@ -79,8 +79,8 @@ public:
 
     u_int64_t getRoot(u_int64_t idx){
         u_int64_t curr = idx;
-        while(idx < N && !isNoParent(idx)){
-            curr = (u_int64_t) parentPtrs[idx];
+        while(curr < N && !isNoParent(curr)){
+            curr = parentPtrs[curr];
         }
         return curr;
     }
@@ -282,7 +282,7 @@ public:
                     merge(small_j, big_i, small_c, big_c, true);
                 }
             }else{
-                if(sz_Ci < desired_sz && sz_Cj < desired_sz) {
+                if(sz_Ci <= desired_sz && sz_Cj <= desired_sz) {
                     merge(i, j, Ci, Cj, false);
                 }else{
                     //TODO ask Dr.Christina about this case.
@@ -303,10 +303,13 @@ public:
         }
         Component small_component = smaller_component_it->second;
         Component bigger_component = bigger_component_it->second;
+        printComponents();
         if(!isBreak){
             parentPtrs[small_j] = big_i;
+            componentMap.erase(bigger_component_it);
             //Update bigger componets size by adding the smaller components size
             componentMap.insert(make_pair(big_root, *(new Component(bigger_component.heightIdx, bigger_component.rootIdx, bigger_component.height, bigger_component.size+small_component.size))));
+            printComponents();
         }else{
             //First I need to break the bigger into 2 halves.
             // store the root of the chunk.... in chunk_root

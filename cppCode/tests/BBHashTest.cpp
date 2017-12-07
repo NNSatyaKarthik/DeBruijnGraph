@@ -5,14 +5,12 @@
 
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "ctime"
 #include "../src/ConstructKMers.h"
 #include "../src/BBHash.h"
 
 
 #define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
-using testing::Eq;
 
 namespace {
     class BBHashTest : public testing::Test {
@@ -59,7 +57,7 @@ TEST_F(BBHashTest, getMPHF) {
 }
 
 
-TEST_F(BBHashTest, getMPHFFullDataSet) {
+TEST_F(BBHashTest, DISABLED_getMPHFFullDataSet) {
     // GIven an long long returns the index of the mphf
     //CHeck for unique ness.
     vector<string> kmers = sut->getKMers(GENOMEFA);
