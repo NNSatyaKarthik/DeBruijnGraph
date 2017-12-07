@@ -7,7 +7,9 @@
 #include "ctime"
 #include "../src/ConstructKMers.h"
 #include "../src/RabinKarpHash.h"
-#include "../lib/BBHash-master/BooPHF.h"
+#include "../src/BooPHF.h"
+
+//#include "../lib/BBHash-master/BooPHF.h"
 typedef boomphf::SingleHashFunctor<u_int64_t>  hasher_t;
 typedef boomphf::mphf<  long long, hasher_t  > boophf_t;
 

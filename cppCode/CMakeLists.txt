@@ -10,6 +10,7 @@ endif()
 
 include(DownloadProject.cmake)
 download_project(PROJ                googletest
+                 PREFIX              lib
                  GIT_REPOSITORY      https://github.com/google/googletest.git
                  GIT_TAG             master
                  ${UPDATE_DISCONNECTED_IF_AVAILABLE}
@@ -21,9 +22,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 
-
 #add_subdirectory(lib/googletest-master)
-include_directories(${googletest_SCOURCE_DIR}/include)
+include_directories(${googletest_SOURCE_DIR}/include)
 include_directories(${googletest_BINARY_DIR}/include)
 
 set(SOURCE_FILES main.cpp src/RabinKarpHash.cpp src/RabinKarpHash.h tests/RabinKarpTest.cpp src/ConstructKMers.h tests/ConstructKMersTest.cpp tests/BBHashTest.cpp src/BBHash.h src/GraphDS.cpp src/GraphDS.h tests/GraphDSTest.cpp src/PreProcess.h tests/PreProcessTest.cpp)

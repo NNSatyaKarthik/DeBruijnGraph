@@ -20,7 +20,7 @@
 
 using namespace std;
 
-#include "../lib/BBHash-master/BooPHF.h"
+#include "BooPHF.h"
 typedef boomphf::SingleHashFunctor<u_int64_t>  hasher_t;
 typedef boomphf::mphf<  long long, hasher_t  > boophf_t;
 
