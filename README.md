@@ -1,3 +1,28 @@
+## Steps to Run the code
+### Prerequisites
+- Cmake
+  - We need [cmake](https://cmake.org/) pre installed on the host machine where you run the code. Follow the steps on this [site](https://cmake.org/download/) to download and install cmake on your machine OS. 
+
+### Build Steps
+Run the following steps to get the executable of the project. Name of the executable is **cppCode**. 
+```
+git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git
+cd DeBruijnGraph/cppCode/
+cmake . 
+make
+```
+
+
+
+### Possible Errors while installing and running the code
+- While installing Cmake: 
+```
+CMake Error at CMakeLists.txt:2 (project):
+No CMAKE_CXX_COMPILER could be found.
+```
+On Ubuntu machine, run the following command to resolve the issue: 
+``` sudo apt-get update && sudo apt-get install build-essential ```
+
 ## Addition of Dynamic Edges to Debruijn graph
 
 
