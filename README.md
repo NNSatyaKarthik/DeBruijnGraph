@@ -53,14 +53,30 @@ On Ubuntu machine, run the following command to resolve the issue:
 ``` sudo apt-get update && sudo apt-get install build-essential ```
 
 #### Compiling and getting an executable from the Dockerfile. 
-Note: Make sure you have an internet connection before building the image. 
-Steps to build the image: 
+
+Prerequisite : Install docker on your machine. Download it from [here](https://www.docker.com/community-edition#/download)
+Note: 
+- Make sure you have an internet connection before building the image. 
+- Add sudo to the following commands if you are running on linux machines.
+
+cd to the this current directory: 
 ```
-docker build 
+git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git
+cd DeBruijnGraph/
 ```
-Steps to run the image: 
+
+Steps to build the image: Builds an image all the cmake/boost pre installed.
 ```
-docker run -it -v "$(pwd)"/cppCode:/cppCode -v "$(pwd)"/datasets:/datasets  db:latest /bin/bash /cppCode/compile.sh
+docker build -t ub:latest .
+```
+
+Steps to run the image: This 
+- compiles code
+- builds an executable
+- Run's the main command.
+
+```
+docker run -it -v "$(pwd)":/DeBruijnGraph  ub:latest /bin/bash /DeBruijnGraph/compile.sh
 ```
 
 This build process is tested with the following version of docker on mac. 
