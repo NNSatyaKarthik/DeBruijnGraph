@@ -369,6 +369,40 @@ public:
             printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %lu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
         }
     }
+
+    void printComponentsMetrics(){
+        printf("\nPrintComponentMetrics Objects\n");
+        printf("Number of components found : %lu\n", componentMap.size());
+        vector<int> heights;
+        vector<int> sizes;
+        int i = 1;
+        for(auto it = componentMap.begin(); it != componentMap.end(); it++){
+//            printf("Component: %2d's Root is : %lu\n", i++, it->first);
+//            printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %lu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
+            heights.push_back(getHeightModified(it->first));
+            sizes.push_back(it->second.size);
+        }
+        double avgSize, avgHt, sz = sizes.size();
+        for(int i = 0 ; i < sizes.size(); i++){
+            avgSize += (sizes[i]/sz);
+            avgHt += (heights[i]/sz);
+        }
+        printf("Avg Height of all components: %.2f\n", avgHt);
+        printf("Avg Size of all components: %.2f\n", avgSize);
+    }
+
+    bool invariantCheck(){
+        int heightNotSatisfied = 0 , sizesNotSatisifed = 0;
+        for(auto it = componentMap.begin(); it != componentMap.end(); it++){
+//            printf("Component: %2d's Root is : %lu\n", i++, it->first);
+//            printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %lu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
+            if(getHeightModified(it->first) > max_ht) heightNotSatisfied++;
+            if(it->second.size < desired_sz) sizesNotSatisifed++;
+        }
+        printf("No of Components Found: %lu\n", componentMap.size());
+        printf("Height Invariant is not satisfied in %d components.\n"
+                       "Size Invariant is not satisfied in %d components.\n", heightNotSatisfied, sizesNotSatisifed);
+    }
 };
 
 
