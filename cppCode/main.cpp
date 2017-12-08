@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
                         printf("Currently processing File: %s\n", vm["input-file"].as<string>().c_str());
                         rkhash = new RabinKarpHash(k - 1);
                         time(&b);
-                        kmers = sut->getKMers(vm["input-file"].as<string>());
+                        kmers = sut->getKMersFastQ(vm["input-file"].as<string>());
                         time(&e);
                         printf("Value of K: %d\n # of K-1mers inserting %lu\n", k, kmers.size());
                         printf("Time taken by the Constructing Kmer is: %.2lf seconds.\n", difftime(e, b));
@@ -113,15 +113,16 @@ int main(int argc, char *argv[]) {
                             time(&e);
                             printf("Time taken by the Build Forest is: %.2lf seconds.\n", difftime(e, b));
                         }
-                        time(&b);
+                        time(&b); int dedges = 0 ;
                         for (int id = (int) floor(staticFraction * kmers.size()); id < kmers.size(); id++) {
                             gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[id - 1]),
                                                 bbHashExt->getMPHF(kmersHashValues[id]),
                                                 rkhash->getLastCharI(kmersHashValues[id]),
                                                 rkhash->getFirstCharI(kmersHashValues[id - 1]));
+                            dedges++;
                         }
                         time(&e);
-                        printf("Time taken by the BreakEven Edge forest: %.2lf seconds.\n", difftime(e, b));
+                        printf("Time taken by the adding Dynamic Edges (No of Edges: %2d)forest: %.2lf seconds.\n", dedges, difftime(e, b));
                         gds->invariantCheck();
                         gds->printComponentsMetrics();
                     }

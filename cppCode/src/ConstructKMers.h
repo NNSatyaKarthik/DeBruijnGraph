@@ -49,6 +49,25 @@ public:
         return res;
     }
 
+    vector<string> getKMersFastQ(string filePath){
+        vector<string> res;
+        string line, kmer = "";
+        ifstream myfile (filePath);
+        if (myfile.is_open())
+        {
+            while(getline(myfile,line)){
+                kmer = line;
+                if(kmer.length() >= k){
+                    for(int i  = 0 ; i < kmer.length()-k+1 ; i++){
+                        res.push_back(kmer.substr(i, k));
+                    }
+                }
+            }
+            myfile.close();
+        }
+        return res;
+    }
+
     vector<string> getKmersFromData(string data){
         vector<string> res;
         for(int i = 0 ; i < data.length()-k+1; i++){
