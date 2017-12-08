@@ -1,4 +1,23 @@
-## Steps to Run the code
+This is an academic project implemented in Fall 2017 at University of Florida in course CIS 6930: Big Data for Biological Applications/Bioinformatic Algorithms. This project is implmented under the guidance of [Dr.Christina Boucher](https://www.christinaboucher.com/). 
+
+Contributers to this project are : 
+[Naga Satya Karthik, Narikimilli](http://github.com/NNSatyaKarthik)
+[Akshat Bhardwaj](akshatbhardwaj@ufl.edu)
+[Sahil Tiwari](tiwarisahil91@ufl.edu)
+[Amarnath Vaid](amar.vaid@ufl.edu)
+
+# Problem Statement
+De Bruijn Graphs are succinct data structures, in Bio Informatics, are used for assembly of genome sequences  obtained from a Next Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement deBruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper [Fully Dynamic De Bruijn Graphs](https://arxiv.org/abs/1607.04909). The aim of our project is to implement Dynamic addition and deletion of edges into deBruijn graph which is constructed using a similar compact data structures.
+
+# Research Paper
+Our implmentation and insights of this project can be found [here](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/papers). This paper is written in the Journal of BioInformatics format. 
+
+# Sample data
+The sample datasets that are used in this project are found in this [folder](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/datasets).
+
+# Code & Executable. 
+Source code of this project in the directory [cppCode](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/cppCode). Follow the steps to build an executable. If you have an executable already refer to the section [Running an executable](#Running an Executable). 
+## Build the Executable
 ### Prerequisites
 - Cmake
   - We need [cmake](https://cmake.org/) pre installed on the host machine where you run the code. Follow the steps on this [site](https://cmake.org/download/) to download and install cmake on your machine OS. 
@@ -50,19 +69,6 @@ docker-machine version 0.12.2, build 9371605
 ## Addition of Dynamic Edges to Debruijn graph
 
 
-You can use the [editor](https://github.com/NNSatyaKarthik/DeBruijnGraph/edit/master/README.md) on GitHub to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run Jekyll to rebuild the pages in your site, from the content in your Markdown files.
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-
-De Bruijn Graphs are succinct data structures, in Bio Informatics, are used for assembly of genome sequences 
-obtained from a Next Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using 
-data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement 
-De Bruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper 
-“Fully Dynamic De Bruijn Graphs”. The aim of our project is to implement Dynamic addition of edges into De 
-Bruijn graph which is constructed using a similar compact data structures.
 
 # Introduction:
 
