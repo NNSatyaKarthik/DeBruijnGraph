@@ -1,15 +1,24 @@
 #include "iostream"
 //#include "src/PreProcess.h"
+#include "boost/filesystem.hpp"
 #include <gtest/gtest.h>
 #include "string"
+#define GENOMEFA "../datasets/genome.fa"
+using namespace boost::filesystem;
+using namespace std;
+
+
 void printHelp(){
     printf("Run the program as follows: ./cppCode <mode> <arg>\nPossible Modes: \n 0: Runs all Tests\n1:preprocess inputfilename outputfilename\n2:construct_debruijn_graph\n");
 }
 
 int main(int argc, char *argv[]) {
-    testing::InitGoogleTest(&argc, argv);
-    RUN_ALL_TESTS();
-    return 0;
+    const  path p("..");
+//    printf(absolute(p, current_path()));
+//    cout << canonical(p) << endl;
+//    testing::InitGoogleTest(&argc, argv);
+//    RUN_ALL_TESTS();
+//    return 0;
 //    printHelp();
 //
 ////    printf("Program Name Is: %s",argv[0]);
