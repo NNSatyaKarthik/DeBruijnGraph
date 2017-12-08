@@ -21,7 +21,15 @@ Source code of this project in the directory [cppCode](https://github.com/NNSaty
 ### Prerequisites
 - Cmake
   - We need [cmake](https://cmake.org/) pre installed on the host machine where you run the code. Follow the steps on this [site](https://cmake.org/download/) to download and install cmake on your machine OS. 
-
+- Boost Installed
+  - On mac run the following command:
+  ```
+  brew install boost
+  ```
+  - On ubuntu run the following command: 
+  ```
+  sudo apt-get install libboost-all-dev aptitude && aptitude search boost
+  ```
 ### Build Steps
 #### Installing on a machine
 #### Compiling and getting an executable from the Dockerfile. 
@@ -48,11 +56,11 @@ On Ubuntu machine, run the following command to resolve the issue:
 Note: Make sure you have an internet connection before building the image. 
 Steps to build the image: 
 ```
-docker build ...
+docker build 
 ```
 Steps to run the image: 
 ```
-docker run ....
+docker run -it -v "$(pwd)"/cppCode:/cppCode -v "$(pwd)"/datasets:/datasets  db:latest /bin/bash /cppCode/compile.sh
 ```
 
 This build process is tested with the following version of docker on mac. 

@@ -4,5 +4,7 @@
 
 FROM ubuntu:latest
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends apt-utils build-essential sudo git wget
-RUN wget https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh && chmod +x cmake-3.10.0-Linux-x86_64.sh && sudo ./cmake-3.10.0-Linux-x86_64.sh && sudo ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin && cmake --version
+RUN apt-get install -y --no-install-recommends apt-utils build-essential sudo git wget libboost-all-dev aptitude
+RUN wget --no-check-certificate https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh && chmod +x cmake-3.10.0-Linux-x86_64.sh && ./cmake-3.10.0-Linux-x86_64.sh --skip-license --include-subdir && ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin 
+RUN aptitude search boost
+RUN cmake --version

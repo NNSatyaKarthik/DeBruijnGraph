@@ -13,7 +13,7 @@
 typedef boomphf::SingleHashFunctor<u_int64_t>  hasher_t;
 typedef boomphf::mphf<  long long, hasher_t  > boophf_t;
 
-#define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
+#define GENOMEFA "../datasets/genome.fa"
 #define GENOMESMALLL "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/small.fa"
 
 namespace {
