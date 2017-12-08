@@ -50,6 +50,25 @@ public:
         printf("size of the unique hash Keys : is : %d for Kmers of size: %d\n", (int)(*rkeys).size(), (int)values.size());
     }
 
+    BBHashExt(vector<vector<long long>>  values){
+        set<long long> valuesSet;
+        for(vector<long long> val: values){
+            valuesSet.insert(val.begin(), val.end());
+        }
+        vector<long long> tempValues(valuesSet.begin(), valuesSet.end());
+        bphf = new boomphf::mphf<long long,hasher_t>(valuesSet.size(),tempValues,1);
+        u_int64_t idx;
+        n = valuesSet.size();
+        rkeys = new vector<long long>(valuesSet.size(), 0);
+        for(vector<long long> val: values){
+            for(long long value : val){
+                idx = bphf->lookup(value);
+                (*rkeys).at(idx) = value;
+            }
+        }
+        printf("size of the unique hash Keys : is : %d for Kmers of size: %d\n", (int)(*rkeys).size(), (int)(values.size()*values[0].size()));
+    }
+
     long long getRabinHash(u_int64_t vertexId){
         if(vertexId >= (*rkeys).size()) return -1;
         return (*rkeys).at(vertexId);

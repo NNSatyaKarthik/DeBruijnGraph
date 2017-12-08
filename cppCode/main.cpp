@@ -9,6 +9,9 @@
 
 #include <iterator>
 #define GENOMEFA "../datasets/genome.fa"
+
+void getRowCol(int id, int *row, int *col, int m, int n);
+
 using namespace boost::program_options;
 using namespace std;
 namespace po = boost::program_options;
@@ -74,8 +77,8 @@ int main(int argc, char *argv[]) {
                         RabinKarpHash *rkhash;
                         BBHashExt *bbHashExt;
                         GraphDS *gds;
-                        vector<long long> kmersHashValues;
-                        vector<string> kmers;
+                        vector<vector<long long>> kmersHashValues;
+                        vector<vector<string>> kmers;
                         time_t b, e;
 
                         sut = new ConstructKMers(k - 1);
@@ -100,13 +103,18 @@ int main(int argc, char *argv[]) {
 
                         gds = new GraphDS(bbHashExt->getSize(), 4, k, bbHashExt, rkhash);
 //                        printf("Preprocessed the file from %s to  %s...\n", vm["input-file"].as<string>().c_str(), vm["output-file"].as<string>().c_str());
-
+                        int m = kmers.size(), n = kmers[0].size();
+                        int totalSize = m*n, row, col;
+                        printf("TotalSize: %d", totalSize);
                         if (staticFraction > 0) {
-                            for (int id = 1; id < (int) floor(staticFraction * kmers.size()); id++) {
-                                gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id - 1]),
-                                                   bbHashExt->getMPHF(kmersHashValues[id]),
-                                                   rkhash->getLastCharI(kmersHashValues[id]),
-                                                   rkhash->getFirstCharI(kmersHashValues[id - 1]));
+                            for (int id = 0; id < (int) floor(staticFraction * totalSize); id++) {
+                                if(id % n == 0) continue;
+                                getRowCol(id, &row, &col, m, n);
+
+                                gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
+                                                   bbHashExt->getMPHF(kmersHashValues[row][col]),
+                                                   rkhash->getLastCharI(kmersHashValues[row][col]),
+                                                   rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
                             }
                             time(&b);
                             gds->buildForest();
@@ -115,11 +123,13 @@ int main(int argc, char *argv[]) {
                         }
                         time(&b); int dedges = 0 ;
                         printf("Dynamic Edges: %lu (adding into graph)\n",kmers.size()-((int)floor(staticFraction * kmers.size())));
-                        for (int id = (int) floor(staticFraction * kmers.size()); id < kmers.size(); id++) {
-                            gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[id - 1]),
-                                                bbHashExt->getMPHF(kmersHashValues[id]),
-                                                rkhash->getLastCharI(kmersHashValues[id]),
-                                                rkhash->getFirstCharI(kmersHashValues[id - 1]));
+                        for (int id = (int) floor(staticFraction * totalSize); id < kmers.size(); id++) {
+                            if(id % n == 0) continue;
+                            getRowCol(id, &row, &col, m, n);
+                            gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
+                                               bbHashExt->getMPHF(kmersHashValues[row][col]),
+                                               rkhash->getLastCharI(kmersHashValues[row][col]),
+                                               rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
                             dedges++;
                         }
                         time(&e);
@@ -141,5 +151,11 @@ int main(int argc, char *argv[]) {
     }
 
     return 0;
+}
+
+void getRowCol(int id, int *row, int *col, int m, int n) {
+    *row = id/m;
+    *col = id%n;
+    return;
 }
 

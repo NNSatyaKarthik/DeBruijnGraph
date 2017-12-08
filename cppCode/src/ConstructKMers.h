@@ -49,19 +49,22 @@ public:
         return res;
     }
 
-    vector<string> getKMersFastQ(string filePath){
-        vector<string> res;
+    vector<vector<string>> getKMersFastQ(string filePath){
+        vector<vector<string>> res;
+        vector<string> temp;
         string line, kmer = "";
         ifstream myfile (filePath);
         if (myfile.is_open())
         {
             while(getline(myfile,line)){
+                temp.clear();
                 kmer = line;
                 if(kmer.length() >= k){
                     for(int i  = 0 ; i < kmer.length()-k+1 ; i++){
-                        res.push_back(kmer.substr(i, k));
+                        temp.push_back(kmer.substr(i, k));
                     }
                 }
+                if(temp.size() > 0) res.push_back(temp);
             }
             myfile.close();
         }
@@ -101,10 +104,21 @@ public:
         long long kmerhash = 0, prev = rkhash->rabinkarpHash(kmers[0]);
         res.push_back(prev);
         for(int i =  1 ; i < kmers.size(); i++){
-//            kmerhash = rkhash->computeNextHash(prev,kmers[i][k-1]);
-            kmerhash = rkhash->rabinkarpHash(kmers[i]);
+            kmerhash = rkhash->computeNextHash(prev,kmers[i][k-1]);
+//            kmerhash = rkhash->rabinkarpHash(kmers[i]);
             res.push_back(kmerhash);
             prev = kmerhash;
+        }
+        return res;
+    }
+
+
+    vector<vector<long long>> getRKHashMaps(vector<vector<string>> kmers){
+        vector<vector<long long>> res;
+        vector<long long> temp;
+        for(vector<string> kmer: kmers){
+            temp = getRKHashMaps(kmer);
+            res.push_back(temp);
         }
         return res;
     }
