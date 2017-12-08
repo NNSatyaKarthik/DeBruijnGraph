@@ -55,16 +55,16 @@ On Ubuntu machine, run the following command to resolve the issue:
 #### Compiling and getting an executable from the Dockerfile. 
 
 Prerequisite : Install docker on your machine. Download it from [here](https://www.docker.com/community-edition#/download)
+For Ubuntu : Follow instructions from [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
+
 Note: 
 - Make sure you have an internet connection before building the image. 
 - Add sudo to the following commands if you are running on linux machines.
 
 cd to the this current directory: 
 ```
-git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git
-cd DeBruijnGraph/
+git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git && cd DeBruijnGraph/
 ```
-
 Steps to build the image: Builds an image all the cmake/boost pre installed.
 ```
 docker build -t ub:latest .
@@ -79,6 +79,27 @@ Steps to run the image: This
 docker run -it -v "$(pwd)":/DeBruijnGraph  ub:latest /bin/bash /DeBruijnGraph/compile.sh
 ```
 
+If you need to just run the executable (only execute this after atleast executing previous command)
+```
+docker run -it -v "$(pwd)":/DeBruijnGraph  db:latest  /DeBruijnGraph/cppCode/cppCode --help
+```
+
+For running the Test Cases: 
+```
+docker run -it -v "$(pwd)":/DeBruijnGraph  db:latest  /DeBruijnGraph/cppCode/cppCode --choice 0
+```
+
+For Preprocessing the fastq to some other format 
+**Data file needs to be present in the DeBruijnGraphs/ folder.**
+
+Place the data files in the DeBruijnGraph and give the path as "/DeBruijnGraphs/\<*where the data file is*\>"
+```
+docker run -it -v "$(pwd)":/DeBruijnGraph  db:latest  /DeBruijnGraph/cppCode/cppCode \
+ --choice 1 \
+ --input-file /DeBruijnGraph/datasets/escherichia_coli_k12_mg1655.m130404_014004_sidney_c100506902550000001823076808221337_s1_p0.1.fastq \
+ --output-file /DeBruijnGraph/datasets/escherichia_coli_k12_mg1655.m130404_014004_sidney_c100506902550000001823076808221337_s1_p0.1.fastq.out
+
+```
 This build process is tested with the following version of docker on mac. 
 ```
 ➜  cppCode git:(master) ✗ docker --version
