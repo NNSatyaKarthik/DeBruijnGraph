@@ -61,7 +61,7 @@ public:
         min_ht = desired_sz;
         max_ht = 3*desired_sz;
         mid_ht = 2*desired_sz;
-        printf("\nDesiredSize: %llu, minHeight:%llu, midHeight:%llu, maxHeight:%llu\n", desired_sz, min_ht, mid_ht, max_ht);
+        printf("\nDesiredSize: %lu, minHeight:%lu, midHeight:%lu, maxHeight:%lu\n", desired_sz, min_ht, mid_ht, max_ht);
     }
 
     vu64 getNeighbours(u_int64_t vertexId){
@@ -96,14 +96,14 @@ public:
     }
 
     int getHeightModified(u_int64_t rootIdx){
-//        printf("\n\n\n\nModified height is called with rootIdx: %llu\n", rootIdx);
+//        printf("\n\n\n\nModified height is called with rootIdx: %lu\n", rootIdx);
         vu64 neighbours = getNeighbours(rootIdx);
 //        for(u_int64_t v: neighbours){
-//            printf("Parent Pointer of neighbour %llu is : %llu\n", v, parentPtrs[v]);
+//            printf("Parent Pointer of neighbour %lu is : %lu\n", v, parentPtrs[v]);
 //        }
         vu64 neighbours_filtered = filter(neighbours, rootIdx);
 //        for(u_int64_t v: neighbours_filtered){
-//            printf("Parent Pointer of neighbour Filtered %llu is : %llu\n", v, parentPtrs[v]);
+//            printf("Parent Pointer of neighbour Filtered %lu is : %lu\n", v, parentPtrs[v]);
 //        }
         int maxHt = 0, temp;
         for(u_int64_t vertex : neighbours_filtered){
@@ -353,9 +353,9 @@ public:
         printf("\nParentPointers: \n");
         for(int i = 0 ; i < parentPtrs.size(); i++){
             if(parentPtrs[i] != N+1){
-                printf("%2d --> %llu\n", i, parentPtrs[i]);
+                printf("%2d --> %lu\n", i, parentPtrs[i]);
             }else{
-                printf("Root %2d --> %llu\n", i, parentPtrs[i]);
+                printf("Root %2d --> %lu\n", i, parentPtrs[i]);
             }
         }
     }
@@ -365,8 +365,8 @@ public:
         printf("Number of components found : %lu\n", componentMap.size());
         int i = 1;
         for(auto it = componentMap.begin(); it != componentMap.end(); it++){
-            printf("Component: %2d's Root is : %llu\n", i++, it->first);
-            printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %llu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
+            printf("Component: %2d's Root is : %lu\n", i++, it->first);
+            printf("\tSize: %2d, Height:%2d, ModifiedHeight: %2d, HeightIdx: %lu\n", it->second.size, it->second.height, getHeightModified(it->first), it->second.heightIdx);
         }
     }
 };

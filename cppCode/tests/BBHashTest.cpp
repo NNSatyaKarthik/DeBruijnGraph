@@ -52,10 +52,10 @@ TEST_F(BBHashTest, getMPHF) {
 //    printf("Size of the keys: %d",(int)bbHashExt->n);
     for(long long rkhash: input_keys){
         idx = bbHashExt->getMPHF(rkhash);
-        printf("RKHash: %lli, Value(IDX): %llu\n", rkhash, idx);
+        printf("RKHash: %lld, Value(IDX): %lu\n", rkhash, idx);
     }
 
-    printf("yoyoyoyoyoyyoyoyo %llu\n", bbHashExt->getMPHF(60));
+    printf("yoyoyoyoyoyyoyoyo %lu\n", bbHashExt->getMPHF(60));
 }
 
 

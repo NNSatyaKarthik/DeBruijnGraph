@@ -15,7 +15,7 @@ void printHelp(){
 int main(int argc, char *argv[]) {
     const  path p("..");
 //    printf(absolute(p, current_path()));
-//    cout << canonical(p) << endl;
+    cout << canonical(p) << endl;
 //    testing::InitGoogleTest(&argc, argv);
 //    RUN_ALL_TESTS();
 //    return 0;

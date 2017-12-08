@@ -54,7 +54,7 @@ namespace {
 
 TEST_F(GraphDSTest, DISABLED_getNeighbours) {
     for(int i = 0 ; i < kmers.size(); i++){
-        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+        printf("%s, %lld, %lu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
     }
 //    gds->printInOut(); //Prints all 0's and 1'st
     for(int id = 1; id < kmers.size(); id++){
@@ -67,22 +67,22 @@ TEST_F(GraphDSTest, DISABLED_getNeighbours) {
     vector<u_int64_t> neighboursAct = gds->getNeighbours(5);
     //prints both the lists
     printf("Expected: ");
-    for(u_int64_t nact: neighboursExpected)printf("%llu, ", nact);
+    for(u_int64_t nact: neighboursExpected)printf("%lu, ", nact);
     printf("\nActual: ");
-    for(u_int64_t nact: neighboursAct)printf("%llu, ", nact);
+    for(u_int64_t nact: neighboursAct)printf("%lu, ", nact);
     printf("\n");
 
     // checks all neighbours found whether present in expected list
     for(u_int64_t nact: neighboursAct){
         if(find(neighboursExpected.begin(), neighboursExpected.end(), nact) == neighboursExpected.end()){
-            printf("%llu is not found in expected list\n", nact);
+            printf("%lu is not found in expected list\n", nact);
             EXPECT_TRUE(false);
         }
     }
     // checks all neighbours expected whether present in neighbours found list
     for(u_int64_t nexpt: neighboursExpected){
         if(find(neighboursAct.begin(), neighboursAct.end(), nexpt) == neighboursAct.end()){
-            printf("%llu is not found in Actual list\n", nexpt);
+            printf("%lu is not found in Actual list\n", nexpt);
             EXPECT_TRUE(false);
         }
     }
@@ -91,7 +91,7 @@ TEST_F(GraphDSTest, DISABLED_getNeighbours) {
 
 TEST_F(GraphDSTest, DISABLED_buildForestTest){
 //    for(int i = 0 ; i < kmers.size(); i++){
-//        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+//        printf("%s, %lld, %lu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
 //    }
 //    gds->printInOut(); //Prints all 0's and 1'st
     for(int id = 1; id < kmers.size(); id++){
@@ -113,7 +113,7 @@ TEST_F(GraphDSTest, DISABLED_buildForestTest){
 
 TEST_F(GraphDSTest, BreakEvenAddDynamicEdgeTest){
 //    for(int i = 0 ; i < kmers.size(); i++){
-//        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+//        printf("%s, %lld, %lu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
 //    }
 //    gds->printInOut(); //Prints all 0's and 1'st
 //    for(int id = 1; id < kmers.size()/2; id++){
@@ -143,7 +143,7 @@ TEST_F(GraphDSTest, BreakEvenAddDynamicEdgeTest){
 
 TEST_F(GraphDSTest, DISABLED_updateParentPointersTest){
     for(int i = 0 ; i < kmers.size(); i++){
-        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+        printf("%s, %lld, %lu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
     }
 //    gds->printInOut(); //Prints all 0's and 1'st
     for(int id = 1; id < kmers.size(); id++){

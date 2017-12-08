@@ -1,4 +1,4 @@
 #/bin/bash
 git config --global http.sslVerify false
-cd cppCode/
+cd /DeBruijnGraph/cppCode/
 cmake . && make && ./cppCode
