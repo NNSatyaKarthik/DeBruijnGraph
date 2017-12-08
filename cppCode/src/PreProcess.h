@@ -9,7 +9,7 @@
 #include <fstream>
 #include <string>
 #include <numeric>
-
+#include "vector"
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;

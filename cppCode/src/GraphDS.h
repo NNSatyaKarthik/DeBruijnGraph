@@ -215,7 +215,7 @@ public:
         q.push(root);
         vu64 neighbours;
         while(q.size() > 0 ){
-            vidx = q.front();
+            vidx = q.front(); q.pop();
             res++;
             neighbours = getNeighbours(vidx);
             neighbours = filter(neighbours, vidx);
@@ -303,13 +303,13 @@ public:
         }
         Component small_component = smaller_component_it->second;
         Component bigger_component = bigger_component_it->second;
-        printComponents();
+//        printComponents();
         if(!isBreak){
             parentPtrs[small_j] = big_i;
             componentMap.erase(bigger_component_it);
             //Update bigger componets size by adding the smaller components size
             componentMap.insert(make_pair(big_root, *(new Component(bigger_component.heightIdx, bigger_component.rootIdx, bigger_component.height, bigger_component.size+small_component.size))));
-            printComponents();
+//            printComponents();
         }else{
             //First I need to break the bigger into 2 halves.
             // store the root of the chunk.... in chunk_root

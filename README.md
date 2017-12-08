@@ -4,6 +4,8 @@
   - We need [cmake](https://cmake.org/) pre installed on the host machine where you run the code. Follow the steps on this [site](https://cmake.org/download/) to download and install cmake on your machine OS. 
 
 ### Build Steps
+#### Installing on a machine
+#### Compiling and getting an executable from the Dockerfile. 
 Run the following steps to get the executable of the project. Name of the executable is **cppCode**. 
 ```
 git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git
@@ -22,6 +24,28 @@ No CMAKE_CXX_COMPILER could be found.
 ```
 On Ubuntu machine, run the following command to resolve the issue: 
 ``` sudo apt-get update && sudo apt-get install build-essential ```
+
+#### Compiling and getting an executable from the Dockerfile. 
+Note: Make sure you have an internet connection before building the image. 
+Steps to build the image: 
+```
+docker build ...
+```
+Steps to run the image: 
+```
+docker run ....
+```
+
+This build process is tested with the following version of docker on mac. 
+```
+➜  cppCode git:(master) ✗ docker --version
+Docker version 17.09.0-ce, build afdb6d4
+➜  cppCode git:(master) ✗ docker-compose --version
+docker-compose version 1.16.1, build 6d1ac21
+➜  cppCode git:(master) ✗ docker-machine --version
+docker-machine version 0.12.2, build 9371605
+➜  cppCode git:(master) ✗
+```
 
 ## Addition of Dynamic Edges to Debruijn graph
 

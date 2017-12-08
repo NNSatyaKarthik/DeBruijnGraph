@@ -8,6 +8,7 @@
 #include "../src/BBHash.h"
 #include "../src/GraphDS.h"
 
+#define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
 
 namespace {
     class GraphDSTest : public testing::Test {
@@ -22,7 +23,7 @@ namespace {
             printf ("time taken for this Test Case is: %.2lf seconds.\n", difftime(e,b));
         }
     public:
-        string data;
+//        string data;
         int k;
         ConstructKMers* sut;
         RabinKarpHash* rkhash;
@@ -31,11 +32,12 @@ namespace {
         vector<long long> kmersHashValues;
         vector<string> kmers;
         GraphDSTest() {
-            data = "AGCGCTGAAAGTTTCATGAACAT";
+//            data = "AGCGCTGAAAGTTTCATGAACAT";
             k = 5;
             sut = new ConstructKMers(k-1);
             rkhash = new RabinKarpHash(k-1);
-            kmers = sut->getKmersFromData(data);
+//            kmers = sut->getKmersFromData(data);
+            kmers = sut->getKMers(GENOMEFA);
             kmersHashValues = sut->getRKHashMaps(kmers);
             bbHashExt = new BBHashExt(kmersHashValues);
             gds = new GraphDS(bbHashExt->getSize(), 4, k, bbHashExt, rkhash);
@@ -50,7 +52,7 @@ namespace {
     };
 }
 
-TEST_F(GraphDSTest, getNeighbours) {
+TEST_F(GraphDSTest, DISABLED_getNeighbours) {
     for(int i = 0 ; i < kmers.size(); i++){
         printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
     }
@@ -87,48 +89,59 @@ TEST_F(GraphDSTest, getNeighbours) {
 }
 
 
-TEST_F(GraphDSTest, buildForestTest){
-    for(int i = 0 ; i < kmers.size(); i++){
-        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
-    }
+TEST_F(GraphDSTest, DISABLED_buildForestTest){
+//    for(int i = 0 ; i < kmers.size(); i++){
+//        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+//    }
 //    gds->printInOut(); //Prints all 0's and 1'st
     for(int id = 1; id < kmers.size(); id++){
         gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
     }
-    gds->printInOut();
-    gds->printParentPointers();
-    gds->printComponents();
+//    gds->printInOut();
+//    gds->printParentPointers();
+//    gds->printComponents();
+    time_t b, e;
+    time(&b);
     gds->buildForest();
-    gds->printParentPointers();
-    gds->printComponents();
+    time(&e);
+    printf("Time taken by the build forest: %.2lf seconds.\n", difftime(e,b));
+//    gds->printParentPointers();
+//    gds->printComponents();
 
 }
 
 
 TEST_F(GraphDSTest, BreakEvenAddDynamicEdgeTest){
-    for(int i = 0 ; i < kmers.size(); i++){
-        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
-    }
+//    for(int i = 0 ; i < kmers.size(); i++){
+//        printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
+//    }
 //    gds->printInOut(); //Prints all 0's and 1'st
-    for(int id = 1; id < kmers.size()/2; id++){
-        gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
-    }
+//    for(int id = 1; id < kmers.size()/2; id++){
+//    for(int id = 1; id < kmers.size(); id++){
+//        gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
+//    }
 //    gds->printInOut();
     gds->buildForest();
 
-    gds->printParentPointers();
-    gds->printComponents();
-    for(int id = kmers.size()/2; id < kmers.size(); id++){
+//    gds->printParentPointers();
+//    gds->printComponents();
+    time_t b, e;
+    printf("Build forest done for full dataset.");
+    time(&b);
+    for(int id = 0; id < kmers.size(); id++){
+//        printf("Processing id: %d\n", id);
         gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[id-1]), bbHashExt->getMPHF(kmersHashValues[id]), rkhash->getLastCharI(kmersHashValues[id]), rkhash->getFirstCharI(kmersHashValues[id-1]));
     }
-    gds->printParentPointers();
-    gds->printComponents();
+    time(&e);
+    printf("Time taken by the BreakEven Edge forest: %.2lf seconds.\n", difftime(e,b));
+//    gds->printParentPointers();
+//    gds->printComponents();
 }
 
 
 
 
-TEST_F(GraphDSTest, updateParentPointersTest){
+TEST_F(GraphDSTest, DISABLED_updateParentPointersTest){
     for(int i = 0 ; i < kmers.size(); i++){
         printf("%s, %lld, %llu\n", kmers[i].c_str(), kmersHashValues[i], bbHashExt->getMPHF(kmersHashValues[i]));
     }

@@ -26,6 +26,13 @@ add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 include_directories(${googletest_SOURCE_DIR}/include)
 include_directories(${googletest_BINARY_DIR}/include)
 
+##install boost
+#set(BOOST_REQUESTED_VERSION 1.61)
+##list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+#include(FindBoost.cmake)
+#find_package(Boost)
+
 set(SOURCE_FILES main.cpp src/RabinKarpHash.cpp src/RabinKarpHash.h tests/RabinKarpTest.cpp src/ConstructKMers.h tests/ConstructKMersTest.cpp tests/BBHashTest.cpp src/BBHash.h src/GraphDS.cpp src/GraphDS.h tests/GraphDSTest.cpp src/PreProcess.h tests/PreProcessTest.cpp)
 add_executable(cppCode ${SOURCE_FILES})
+#target_include_directories(cppCode PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(cppCode gtest gtest_main)

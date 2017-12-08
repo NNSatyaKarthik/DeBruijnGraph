@@ -14,6 +14,7 @@ typedef boomphf::SingleHashFunctor<u_int64_t>  hasher_t;
 typedef boomphf::mphf<  long long, hasher_t  > boophf_t;
 
 #define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
+#define GENOMESMALLL "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/small.fa"
 
 namespace {
     class ConstructKMersTest : public testing::Test {
@@ -32,7 +33,7 @@ namespace {
         ConstructKMers* sut;
         RabinKarpHash* rkhash;
         ConstructKMersTest() {
-            k = 15;
+            k = 8;
             sut = new ConstructKMers(k);
             rkhash = new RabinKarpHash(k);
         }
@@ -44,7 +45,7 @@ namespace {
     };
 }
 
-TEST_F(ConstructKMersTest, DISABLED_Kmers) {
+TEST_F(ConstructKMersTest, Kmers) {
     time_t begin, end;
     time(&begin);
     vector<string> kmers = sut->getKMers(GENOMEFA);
@@ -53,6 +54,9 @@ TEST_F(ConstructKMersTest, DISABLED_Kmers) {
     time(&begin);
     vector<long long> kmersHashValues = sut->getRKHashMaps(kmers);
     time(&end);
+//    for(int i= 0 ; i < kmers.size(); i++){
+//        printf("%s, %lld\n", kmers[i].c_str(), kmersHashValues[i]);
+//    }
     printf ("time taken for getRKHashMaps() %.2lf seconds.\n", difftime(end,begin));
 
     time(&begin);
@@ -89,4 +93,5 @@ TEST_F(ConstructKMersTest, GetUniqueKmersTest){
     ASSERT_EQ(uniqKmers[1], "aec");
     ASSERT_EQ(uniqKmers[2], "eac");
 }
+
 

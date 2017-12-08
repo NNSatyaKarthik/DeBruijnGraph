@@ -54,16 +54,22 @@ TEST_F(BBHashTest, getMPHF) {
         idx = bbHashExt->getMPHF(rkhash);
         printf("RKHash: %lli, Value(IDX): %llu\n", rkhash, idx);
     }
+
+    printf("yoyoyoyoyoyyoyoyo %llu\n", bbHashExt->getMPHF(60));
 }
 
 
-TEST_F(BBHashTest, DISABLED_getMPHFFullDataSet) {
+TEST_F(BBHashTest, getMPHFFullDataSet) {
     // GIven an long long returns the index of the mphf
     //CHeck for unique ness.
     vector<string> kmers = sut->getKMers(GENOMEFA);
     vector<long long> kmersHashValues = sut->getRKHashMaps(kmers);
     printf("KMERS size: %lu\n", kmersHashValues.size());
+    time_t b, e;
+    time(&b);
     bbHashExt = new BBHashExt(kmersHashValues);
+    time(&e);
+    printf("Time take by BBHash for large file: %.2lf seconds.\n", difftime(e,b));
     sort(kmers.begin(), kmers.end());
     kmers.erase(unique(kmers.begin(), kmers.end()), kmers.end());
     printf("Size of the Unique Kmers: %lu\n",kmers.size());
