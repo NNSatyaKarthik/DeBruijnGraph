@@ -114,6 +114,7 @@ int main(int argc, char *argv[]) {
                             printf("Time taken by the Build Forest is: %.2lf seconds.\n", difftime(e, b));
                         }
                         time(&b); int dedges = 0 ;
+                        printf("Dynamic Edges: %lu (adding into graph)\n",kmers.size()-((int)floor(staticFraction * kmers.size())));
                         for (int id = (int) floor(staticFraction * kmers.size()); id < kmers.size(); id++) {
                             gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[id - 1]),
                                                 bbHashExt->getMPHF(kmersHashValues[id]),

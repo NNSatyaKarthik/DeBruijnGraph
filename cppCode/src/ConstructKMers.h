@@ -101,7 +101,8 @@ public:
         long long kmerhash = 0, prev = rkhash->rabinkarpHash(kmers[0]);
         res.push_back(prev);
         for(int i =  1 ; i < kmers.size(); i++){
-            kmerhash = rkhash->computeNextHash(prev,kmers[i][k-1]);
+//            kmerhash = rkhash->computeNextHash(prev,kmers[i][k-1]);
+            kmerhash = rkhash->rabinkarpHash(kmers[i]);
             res.push_back(kmerhash);
             prev = kmerhash;
         }
