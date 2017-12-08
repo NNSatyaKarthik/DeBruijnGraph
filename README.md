@@ -1,4 +1,4 @@
-This is an academic project implemented in Fall 2017 at University of Florida in course CIS 6930: Big Data for Biological Applications/Bioinformatic Algorithms. This project is implmented under the guidance of [Dr.Christina Boucher](https://www.christinaboucher.com/). 
+This is an academic project implemented in Fall 2017 at University of Florida in course CIS 6930: Big Data for Biological Applications/Bioinformatic Algorithms. This project is implemented under the guidance of [Dr.Christina Boucher](https://www.christinaboucher.com/). 
 
 Contributers to this project are : 
 [Naga Satya Karthik, Narikimilli](http://github.com/NNSatyaKarthik)
@@ -7,7 +7,7 @@ Contributers to this project are :
 [Amarnath Vaid](amar.vaid@ufl.edu)
 
 # Problem Statement
-De Bruijn Graphs are succinct data structures, in Bio Informatics, are used for assembly of genome sequences  obtained from a Next Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement deBruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper [Fully Dynamic De Bruijn Graphs](https://arxiv.org/abs/1607.04909). The aim of our project is to implement Dynamic addition and deletion of edges into deBruijn graph which is constructed using a similar compact data structures.
+De Bruijn Graphs are succinct data structures, in Bio Informatics, are used for assembly of genome sequences  obtained from a Next Generation Sequence (NGS) library. These De Bruijn graphs must be implemented using data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement deBruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper [Fully Dynamic De Bruijn Graphs](https://arxiv.org/abs/1607.04909). The aim of our project is to implement Dynamic addition and deletion of edges into deBruijn graph which is constructed using a similar compact data structure.
 
 # Research Paper
 Our implmentation and insights of this project can be found [here](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/papers). This paper is written in the Journal of BioInformatics format. 
