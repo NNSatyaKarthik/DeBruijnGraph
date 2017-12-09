@@ -103,37 +103,66 @@ int main(int argc, char *argv[]) {
 
                         gds = new GraphDS(bbHashExt->getSize(), 4, k, bbHashExt, rkhash);
 //                        printf("Preprocessed the file from %s to  %s...\n", vm["input-file"].as<string>().c_str(), vm["output-file"].as<string>().c_str());
-                        int m = kmers.size(), n = kmers[0].size();
-                        int totalSize = m*n, row, col;
-                        printf("TotalSize: %d", totalSize);
-                        if (staticFraction > 0) {
-                            for (int id = 0; id < (int) floor(staticFraction * totalSize); id++) {
-                                if(id % n == 0) continue;
-                                getRowCol(id, &row, &col, m, n);
+                        int totalSize = 0 , dedges = 0, row, col, staticCount = 0, dynamicCount = 0 , buildForestC;
+                        for(vector<string> kmer: kmers) totalSize+= kmer.size()-1;
+                        staticCount = (int)floor(staticFraction*totalSize);
+                        printf("TotalSize: %d is divided int static: %d & dynamic %d", totalSize, staticCount, totalSize-staticCount);
+                        for(vector<long long> kmersHashValue: kmersHashValues){
+                            for(int i = 1; i < kmersHashValue.size(); i++){
+                                if(staticCount-- > 0) {
+                                    gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValue[i-1]),
+                                    bbHashExt->getMPHF(kmersHashValue[i]),
+                                    rkhash->getLastChar(kmersHashValue[i]),
+                                    rkhash->getFirstChar(kmersHashValue[i-1]));
+                                    if(staticCount == 0){
+                                        time(&b);
+                                        gds->buildForest();
+                                        time(&e);
+                                        printf("Time taken by the Build Forest is: %.2lf seconds.\n", difftime(e, b));
+                                        staticCount--;
+                                        time(&b);
+                                    }
+                                }else {
+//                                    printf("static Edge , dc : %d\n", staticCount);
 
-                                gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
-                                                   bbHashExt->getMPHF(kmersHashValues[row][col]),
-                                                   rkhash->getLastCharI(kmersHashValues[row][col]),
-                                                   rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
+                                    gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValue[i-1]),
+                                                       bbHashExt->getMPHF(kmersHashValue[i]),
+                                                       rkhash->getLastChar(kmersHashValue[i]),
+                                                       rkhash->getFirstChar(kmersHashValue[i-1]));
+                                    dedges++;
+                                }
                             }
-                            time(&b);
-                            gds->buildForest();
-                            time(&e);
-                            printf("Time taken by the Build Forest is: %.2lf seconds.\n", difftime(e, b));
-                        }
-                        time(&b); int dedges = 0 ;
-                        printf("Dynamic Edges: %lu (adding into graph)\n",kmers.size()-((int)floor(staticFraction * kmers.size())));
-                        for (int id = (int) floor(staticFraction * totalSize); id < kmers.size(); id++) {
-                            if(id % n == 0) continue;
-                            getRowCol(id, &row, &col, m, n);
-                            gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
-                                               bbHashExt->getMPHF(kmersHashValues[row][col]),
-                                               rkhash->getLastCharI(kmersHashValues[row][col]),
-                                               rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
-                            dedges++;
                         }
                         time(&e);
                         printf("Time taken by the adding Dynamic Edges (No of Edges: %2d)forest: %.2lf seconds.\n", dedges, difftime(e, b));
+//                        if (staticFraction > 0) {
+//                            for (int id = 0; id < (int) floor(staticFraction * totalSize); id++) {
+//                                if(id % n == 0) continue;
+//                                getRowCol(id, &row, &col, m, n);
+//
+//                                gds->addStaticEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
+//                                                   bbHashExt->getMPHF(kmersHashValues[row][col]),
+//                                                   rkhash->getLastCharI(kmersHashValues[row][col]),
+//                                                   rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
+//                            }
+//                            time(&b);
+//                            gds->buildForest();
+//                            time(&e);
+//                            printf("Time taken by the Build Forest is: %.2lf seconds.\n", difftime(e, b));
+//                        }
+//                        time(&b); int dedges = 0 ;
+//                        printf("Dynamic Edges: %lu (adding into graph)\n",kmers.size()-((int)floor(staticFraction * kmers.size())));
+//                        for (int id = (int) floor(staticFraction * totalSize); id < kmers.size(); id++) {
+//                            if(id % n == 0) continue;
+//                            getRowCol(id, &row, &col, m, n);
+//                            gds->addDynamicEdge(bbHashExt->getMPHF(kmersHashValues[row][col - 1]),
+//                                               bbHashExt->getMPHF(kmersHashValues[row][col]),
+//                                               rkhash->getLastCharI(kmersHashValues[row][col]),
+//                                               rkhash->getFirstCharI(kmersHashValues[row][col - 1]));
+//                            dedges++;
+//                        }
+//                        time(&e);
+//                        printf("Time taken by the adding Dynamic Edges (No of Edges: %2d)forest: %.2lf seconds.\n", dedges, difftime(e, b));
                         gds->invariantCheck();
                         gds->printComponentsMetrics();
                     }
