@@ -21,6 +21,28 @@ Source code of this project in the directory [cppCode](https://github.com/NNSaty
 ### Prerequisites
 - Cmake
   - We need [cmake](https://cmake.org/) pre installed on the host machine where you run the code. Follow the steps on this [site](https://cmake.org/download/) to download and install cmake on your machine OS. 
+  - Follow these instructions to download a tarball and install cmake from source [Needs sudo access for this step]
+  ```
+  #install cmake
+
+  #updates repo
+  sudo apt-get update 
+  sudo apt-get install -y --no-install-recommends apt-utils build-essential sudo git wget tree
+
+  #Downloads cmake, install , make it available
+  wget -c --no-check-certificate https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh && chmod +x cmake-3.10.0-Linux-x86_64.sh && ./cmake-3.10.0-Linux-x86_64.sh --skip-license --include-subdir && sudo ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin 
+  echo `cmake --version`
+
+Output When you execute the last command shoud be: 
+```
+cmake version 3.10.0 CMake suite maintained and supported by Kitware (kitware.com/cmake).
+```
+
+  wget -c https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh
+  # chmod +x cmake-3.10.0-Linux-x86_64.sh && sudo ./cmake-3.10.0-Linux-x86_64.sh
+  ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin
+  echo `cmake --version`
+  <!-- ``` -->
 - Boost Installed
   - On mac run the following command:
   ```
@@ -28,29 +50,80 @@ Source code of this project in the directory [cppCode](https://github.com/NNSaty
   ```
   - On ubuntu run the following command: 
   ```
-  sudo apt-get install libboost-all-dev aptitude && aptitude search boost
+  sudo apt-get install  -y libboost-all-dev aptitude && aptitude search boost
   ```
-### Build Steps
-#### Installing on a machine
-#### Compiling and getting an executable from the Dockerfile. 
+  - To check which version of boost is installed on your machine: 
+ ```
+  dpkg -s libboost-dev | grep 'Version'
+ ```
+ Sample output should be 
+ ```
+ Version: 1.58.0.1ubuntu1
+ ```
+### Clone the repo & Build an executable
+Assuming now both boost and cmake are installed on your machine
+
+#### Clone the repo
 Run the following steps to get the executable of the project. Name of the executable is **cppCode**. 
 ```
 git clone https://github.com/NNSatyaKarthik/DeBruijnGraph.git
+```
+
+#### Build the executable on your machine
+```
 cd DeBruijnGraph/cppCode/
 cmake . 
 make
+
 ```
 
+An executable file **cppCode** is residing in your machin in the directory DeBruijnGraph/cppCode/. 
 
+Since we already in the DeBruijnGraph/cppCode, cppCode executable should be in current working directory.
 
-### Possible Errors while installing and running the code
-- While installing Cmake: 
+#### Running the executable from your machine
+Some of the paths in the code are hardcoded for now. So we need to run the executable from the top directory
+
+Go to the folder where you were while executing the *git clone* step.
 ```
-CMake Error at CMakeLists.txt:2 (project):
-No CMAKE_CXX_COMPILER could be found.
+cd ../../
 ```
-On Ubuntu machine, run the following command to resolve the issue: 
-``` sudo apt-get update && sudo apt-get install build-essential ```
+
+See if you can access the executable from here like this
+```
+ll -alh DeBruijnGraph/cppCode/cppCode
+# -rwxrwxr-x 1 satya_karthik1434u satya_karthik1434u 1.5M Dec  9 16:33 DeBruijnGraph/cppCode/cppCode*
+```
+
+Once you are in the write directory Execute the executable: 
+```
+./DeBruijnGraph/cppCode/cppCode --help
+```
+This should output as follows: 
+```
+
+Allowed options:
+  --help                       produce help message
+  --choice arg                 select the methods to run: 
+                               0: Run the test cases
+                               1: preprocess the input file to the output file.
+                               Please give the container paths here. (if using 
+                               docker).2: Add dynamic edges from the file
+  --input-file arg             input file, should be a fastq (used for choice 1
+                               & 2)
+  --output-file arg            output file, can be any file 
+  --limit arg (=1000)          limit to number of sequence reads while 
+                               preprocessing (Choice 1). Defaults to 1000 
+                               sequence reqds from fastq files
+  --k arg (=15)                value of K in the k-mer
+  --append-mode arg (=0)       append-mode add dynamic edges to the existing 
+                               graph
+                                if appendMode is false then all operations are 
+                               individual
+  --static-fraction arg (=0.5) Fraction of static edges that needs to be added 
+                               before adding dynamic edges
+
+```
 
 #### Compiling and getting an executable from the Dockerfile. 
 
@@ -148,4 +221,16 @@ docker-machine version 0.12.2, build 9371605
 ➜  cppCode git:(master) ✗
 ```
 
-For details Introduction to the flow of the algorithm, Refer to this [file](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/cppCode/README.md)
+### Possible Errors while installing and running the code 
+- While installing Cmake: 
+```
+CMake Error at CMakeLists.txt:2 (project):
+No CMAKE_CXX_COMPILER could be found.
+```
+On Ubuntu machine, run the following command to resolve the issue: 
+```
+sudo apt-get update && sudo apt-get install build-essential ```
+```
+
+For details Introduction to the flow of the algorithm, Refer to this [ReadMe.md](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/cppCode/README.md)
+
