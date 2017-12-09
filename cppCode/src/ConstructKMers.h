@@ -18,8 +18,10 @@
 #include "sys/wait.h"
 #include "RabinKarpHash.h"
 #include <bitset>
+#include "boost/filesystem.hpp"
 
 using namespace std;
+//using namespace boost::filesystem;
 typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<ii> vii;
@@ -32,6 +34,9 @@ public:
     vector<string> getKMers(string filePath){
         vector<string> res;
         string line, kmer = "";
+        cout << "Current Path" << boost::filesystem::current_path().generic_string() << endl;
+        filePath = boost::filesystem::canonical(boost::filesystem::path(filePath)).generic_string();
+        cout << " Relative path: "<< filePath<< endl;
         ifstream myfile (filePath);
         if (myfile.is_open())
         {
@@ -61,7 +66,11 @@ public:
                 kmer = line;
                 if(kmer.length() >= k){
                     for(int i  = 0 ; i < kmer.length()-k+1 ; i++){
-                        temp.push_back(kmer.substr(i, k));
+                        if(kmer.substr(i, k).find("N") == string::npos) temp.push_back(kmer.substr(i, k));
+                        else{
+                            if(temp.size() > 0) res.push_back(temp);
+                            temp.clear();
+                        }
                     }
                 }
                 if(temp.size() > 0) res.push_back(temp);

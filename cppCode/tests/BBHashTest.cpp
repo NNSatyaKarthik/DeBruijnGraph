@@ -10,7 +10,7 @@
 #include "../src/BBHash.h"
 
 
-#define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
+#define GENOMEFA "DeBruijnGraph/datasets/genome.fa"
 
 namespace {
     class BBHashTest : public testing::Test {

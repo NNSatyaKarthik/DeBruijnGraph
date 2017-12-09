@@ -7,7 +7,7 @@
 #include "iostream"
 #include "../src/PreProcess.h"
 
-#define GENOMEFQ "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/escherichia_coli_k12_mg1655.m130404_014004_sidney_c100506902550000001823076808221337_s1_p0.1.fastq"
+#define GENOMEFQ "DeBruijnGraph/datasets/escherichia_coli_k12_mg1655.m130404_014004_sidney_c100506902550000001823076808221337_s1_p0.1.fastq"
 
 namespace {
     class PreProcessTest : public testing::Test {
@@ -33,13 +33,13 @@ namespace {
 }
 
 TEST_F(PreProcessTest, DISABLED_PrintTest){
-    PreProcess *obj = new PreProcess(GENOMEFQ, "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/outputs/reduced.fq");
+    PreProcess *obj = new PreProcess(GENOMEFQ, "DeBruijnGraph/datasets/outputs/reduced.fq");
     obj->printFile();
 }
 
 
 TEST_F(PreProcessTest, TruncateTest){
-    string result = "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/outputs/reduced.fq";
+    string result = "DeBruijnGraph/datasets/outputs/reduced.fq";
     PreProcess *obj = new PreProcess(GENOMEFQ, result);
     obj->truncate(10);
     ifstream resultFile(result);

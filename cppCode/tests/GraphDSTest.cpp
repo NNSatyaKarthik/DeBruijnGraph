@@ -8,7 +8,7 @@
 #include "../src/BBHash.h"
 #include "../src/GraphDS.h"
 
-#define GENOMEFA "/Users/nagasaty/0classes/bdb/DeBruijnGraph/datasets/genome.fa"
+#define GENOMEFA "DeBruijnGraph/datasets/genome.fa"
 
 namespace {
     class GraphDSTest : public testing::Test {

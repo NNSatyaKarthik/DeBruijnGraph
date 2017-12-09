@@ -8,7 +8,7 @@
 #include "src/GraphDS.h"
 
 #include <iterator>
-#define GENOMEFA "../datasets/genome.fa"
+#define GENOMEFA "datasets/genome.fa"
 
 void getRowCol(int id, int *row, int *col, int m, int n);
 
@@ -140,6 +140,8 @@ int main(int argc, char *argv[]) {
             }
         } else{
             cout << "Invalid Choice selected. Please select the choice from 0 - 2, \n" << desc << endl;
+//            testing::InitGoogleTest(&argc, argv);
+//            return RUN_ALL_TESTS();
         }
     }
     catch(exception& e) {

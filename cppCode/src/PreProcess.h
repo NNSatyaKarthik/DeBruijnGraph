@@ -54,7 +54,7 @@ public:
         for(int ii = 0 ; ii < fileLines.size(); ii++){
             s += fileLines[ii]+((ii==(fileLines.size()-1))?"":"\n");
         }
-        cout << "writing s; "<< s << endl;
+        cout << "." ;
         newfile<< s << endl;
     }
 
