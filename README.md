@@ -32,17 +32,12 @@ Source code of this project in the directory [cppCode](https://github.com/NNSaty
   #Downloads cmake, install , make it available
   wget -c --no-check-certificate https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh && chmod +x cmake-3.10.0-Linux-x86_64.sh && ./cmake-3.10.0-Linux-x86_64.sh --skip-license --include-subdir && sudo ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin 
   echo `cmake --version`
-
-Output When you execute the last command shoud be: 
-```
-cmake version 3.10.0 CMake suite maintained and supported by Kitware (kitware.com/cmake).
-```
-
-  wget -c https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh
-  # chmod +x cmake-3.10.0-Linux-x86_64.sh && sudo ./cmake-3.10.0-Linux-x86_64.sh
-  ln -s `pwd`/cmake-3.10.0-Linux-x86_64/bin/* /usr/local/bin
-  echo `cmake --version`
-  <!-- ``` -->
+  ```
+  Output when you execute the last command shoud be: 
+  ```
+  cmake version 3.10.0 CMake suite maintained and supported by Kitware (kitware.com/cmake).
+  ```
+  
 - Boost Installed
   - On mac run the following command:
   ```
@@ -53,13 +48,13 @@ cmake version 3.10.0 CMake suite maintained and supported by Kitware (kitware.co
   sudo apt-get install  -y libboost-all-dev aptitude && aptitude search boost
   ```
   - To check which version of boost is installed on your machine: 
- ```
+  ```
   dpkg -s libboost-dev | grep 'Version'
- ```
- Sample output should be 
- ```
- Version: 1.58.0.1ubuntu1
- ```
+  ```
+  Sample output should be 
+  ```
+  Version: 1.58.0.1ubuntu1
+  ```
 ### Clone the repo & Build an executable
 Assuming now both boost and cmake are installed on your machine
 
