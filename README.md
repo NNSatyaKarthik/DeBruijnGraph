@@ -2,15 +2,15 @@ This is an academic project implemented in Fall 2017 at University of Florida in
 
 Contributers to this project are : 
 [Naga Satya Karthik, Narikimilli](http://github.com/NNSatyaKarthik)
-[Akshat Bhardwaj](akshatbhardwaj@ufl.edu)
-[Sahil Tiwari](tiwarisahil91@ufl.edu)
+[Akshat Bhardwaj](https://github.com/bhardwajat)
+[Sahil Tiwari](https://github.com/tiwarisahil91)
 [Amarnath Vaid](http://github.com/anv2amar)
 
 # Problem Statement
 de Bruijn Graphs are succinct data structures. In bioinformatics, they are used for assembly of genome sequences obtained from a Next Generation Sequence (NGS) library. These de Bruijn graphs must be implemented using data structures that are space and time efficient. Djamal Bellazzougui laid out an approach to implement deBruijn graphs efficiently which supported dynamic insertion and deletion at the same time in his paper [Fully Dynamic De Bruijn Graphs](https://arxiv.org/abs/1607.04909). The aim of our project is to implement Dynamic addition and deletion of edges into the de Bruijn graph which is constructed using a similar compact data structure.
 
 # Research Paper
-Our implmentation and insights of this project can be found [here](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/papers). This paper is written in the Journal of BioInformatics format. 
+Our implementation and insights of this project are presented in a research paper which can be found [here](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/papers). This paper is written in the Journal of BioInformatics format. 
 
 # Sample data
 The sample datasets that are used in this project are found in this [folder](https://github.com/NNSatyaKarthik/DeBruijnGraph/tree/master/datasets).
@@ -82,6 +82,34 @@ docker run -it -v "$(pwd)":/DeBruijnGraph  ub:latest /bin/bash /DeBruijnGraph/co
 If you need to just run the executable (only execute this after atleast executing previous command)
 ```
 docker run -it -v "$(pwd)":/DeBruijnGraph  db:latest  /DeBruijnGraph/cppCode/cppCode --help
+```
+
+Here is a sample help message from the executable: 
+**help message below might be a bit old. Please run the help msg for the latest one.**
+```
+Invalid Choice selected. Please select the choice from 0 - 2, 
+Allowed options:
+  --help                       produce help message
+  --choice arg                 select the methods to run: 
+                               0: Run the test cases
+                               1: preprocess the input file to the output file.
+                               Please give the container paths here. (if using 
+                               docker).2: Add dynamic edges from the file
+  --input-file arg             input file, should be a fastq (used for choice 1
+                               & 2)
+  --output-file arg            output file, can be any file 
+  --limit arg (=1000)          limit to number of sequence reads while 
+                               preprocessing (Choice 1). Defaults to 1000 
+                               sequence reqds from fastq files
+  --k arg (=15)                value of K in the k-mer
+  --append-mode arg (=0)       append-mode add dynamic edges to the existing 
+                               graph
+                                if appendMode is false then all operations are 
+                               individual
+  --static-fraction arg (=0.5) Fraction of static edges that needs to be added 
+                               before adding dynamic edges
+
+
 ```
 
 For running the Test Cases: 
